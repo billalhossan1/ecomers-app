@@ -13,10 +13,17 @@ class AppThemeData {
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColor.themeColor,
       ),
-      scaffoldBackgroundColor: Colors.black87);
-  static TextFormField textFormField(String hint, int maxline) {
+      scaffoldBackgroundColor: Colors.black87
+  );
+
+
+  static TextFormField textFormField(String hint, int maxline,TextEditingController controller,String? Function(String?) validator,TextInputType? keyboardType) {
     return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
       maxLines: maxline,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: const TextStyle(color: Colors.grey),
