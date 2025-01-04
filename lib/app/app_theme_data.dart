@@ -57,7 +57,7 @@ class AppThemeData {
     );
   }
 
-  static SizedBox nextButton({required VoidCallback onPressed}) {
+  static SizedBox nextButton({required VoidCallback onPressed,String name='Next'}) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -74,9 +74,9 @@ class AppThemeData {
           ),
           elevation: 5,
         ),
-        child: const Text(
-          'Next',
-          style: TextStyle(fontSize: 15, color: Colors.white),
+        child: Text(
+          name,
+          style: const TextStyle(fontSize: 16,fontWeight: FontWeight.normal ,color: Colors.white),
         ),
       ),
     );

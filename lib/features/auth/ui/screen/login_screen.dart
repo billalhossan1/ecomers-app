@@ -64,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _moveToNextScreen() {
     if (_formKey.currentState!.validate()) {
-      // If the form is valid, navigate to the next screen
       Navigator.pushNamed(context, PinVerificationScreen.name);
     }
   }
