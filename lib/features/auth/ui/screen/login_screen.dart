@@ -61,6 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  @override
+  void dispose(){
+    super.dispose();
+    _emailTEController.dispose();
+  }
 
   void _moveToNextScreen() {
     if (_formKey.currentState!.validate()) {

@@ -1,6 +1,6 @@
 import 'package:ecomers_app/app/assets_path.dart';
-import 'package:ecomers_app/features/common/ui/main_bottom_nav_controller.dart';
-import 'package:ecomers_app/features/home/ui/screens/CategoryScreen.dart';
+import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
+import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecomers_app/features/home/ui/screens/cart_screen.dart';
 import 'package:ecomers_app/features/home/ui/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class MainBottomNavBar extends StatefulWidget {
 class _MainBottomNavBarState extends State<MainBottomNavBar> {
 final List<Widget> screens=[
   const HomeScreen(),
-  const CategoryScreen(),
+  const CategoryListScreen(),
   const CartScreen(),
   const WishListScreen()
 ];
@@ -29,19 +29,7 @@ final List<Widget> screens=[
     return GetBuilder<MainBottomNavController>(
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(title: SvgPicture.asset(AssetsPath.logoNav),
-            actions: [
-              Row(
-                children: [
-                  CircleAvatar(backgroundColor:Colors.grey,child: IconButton(onPressed: (){}, icon: const Icon(Icons.person,color: Colors.white,),)),
-                  const SizedBox(width: 12,),
-                  CircleAvatar(backgroundColor: Colors.grey,child: IconButton(onPressed: (){}, icon: const Icon(Icons.call),color: Colors.white),),
-                  const SizedBox(width: 12,),
-                  CircleAvatar(backgroundColor: Colors.grey,child: IconButton(onPressed: (){}, icon: const Icon(Icons.alarm_sharp),color: Colors.white)),
-                ],
-              )
-            ],
-          ),
+
           bottomNavigationBar: NavigationBar(
               destinations: const[
             NavigationDestination(icon: Icon(Icons.home,), label: 'Home'),

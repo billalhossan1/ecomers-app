@@ -20,6 +20,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
   late Timer _timer;
    int time=AppConstant.timer;
   bool enableResendButton = false;
+  final TextEditingController _pinCodeTEController = TextEditingController();
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+    _pinCodeTEController.dispose();
   }
 
   @override
@@ -65,6 +67,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
               AppThemeData.secondaryText('A 4 digit OTP code has been sent'),
               const SizedBox(height: 24),
               PinCodeTextField(
+                controller: _pinCodeTEController,
                 length: 6,
                 obscureText: false,
                 animationType: AnimationType.fade,

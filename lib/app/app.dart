@@ -4,6 +4,7 @@ import 'package:ecomers_app/app/controller_binder.dart';
 import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
 import 'package:ecomers_app/features/auth/ui/screen/pin_verification_screen.dart';
 import 'package:ecomers_app/features/auth/ui/screen/register_screen.dart';
+import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class CraftyBay extends StatelessWidget {
         PinVerificationScreen.name:(context)=>const PinVerificationScreen(),
         RegisterScreen.name : (context)=>const RegisterScreen(),
         MainBottomNavBar.name : (context)=>const MainBottomNavBar(),
+        CategoryListScreen.name : (context)=>const CategoryListScreen(),
 
       },
       theme: AppThemeData.lightThemeData,
