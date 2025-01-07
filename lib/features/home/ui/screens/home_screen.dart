@@ -1,5 +1,5 @@
-
 import 'package:ecomers_app/app/assets_path.dart';
+import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_text_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/home_carosel_slider.dart';
@@ -7,7 +7,7 @@ import 'package:ecomers_app/features/home/ui/widgets/poduct_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/product_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,15 +21,39 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: SvgPicture.asset(AssetsPath.logoNav),
+        appBar: AppBar(
+          title: SvgPicture.asset(AssetsPath.logoNav),
           actions: [
             Row(
               children: [
-                CircleAvatar(backgroundColor:Colors.grey,child: IconButton(onPressed: (){}, icon: const Icon(Icons.person,color: Colors.white,),)),
-                const SizedBox(width: 12,),
-                CircleAvatar(backgroundColor: Colors.grey,child: IconButton(onPressed: (){}, icon: const Icon(Icons.call),color: Colors.white),),
-                const SizedBox(width: 12,),
-                CircleAvatar(backgroundColor: Colors.grey,child: IconButton(onPressed: (){}, icon: const Icon(Icons.alarm_sharp),color: Colors.white)),
+                CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    )),
+                const SizedBox(
+                  width: 12,
+                ),
+                CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.call),
+                      color: Colors.white),
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.alarm_sharp),
+                        color: Colors.white)),
               ],
             )
           ],
@@ -37,49 +61,63 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ProductSearchBar(
-              controller: searchBarController,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            HomeCaroselSlider(),
-            const SizedBox(
-              height: 16,
-            ),
-            const CategoryTextWidget(
-              tittle: 'All Categories',
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: getCategoryList()),
-            ),
-            const CategoryTextWidget(
-              tittle: 'Popular',
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: getPopularList()),
-            ), const CategoryTextWidget(
-              tittle: 'Special',
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: getSpecialList()),
-            ),const CategoryTextWidget(
-              tittle: 'New',
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: getNewList()),
-            ),
-          ],
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ProductSearchBar(
+                  controller: searchBarController,
                 ),
-              ),
+                const SizedBox(
+                  height: 16,
+                ),
+                HomeCaroselSlider(),
+                const SizedBox(
+                  height: 16,
+                ),
+                CategoryTextWidget(
+                  onTap: () {
+                    Get.find<MainBottomNavController>().showCategoryList();
+                  },
+                  tittle: 'All Categories',
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: getCategoryList()),
+                ),
+                CategoryTextWidget(
+                  onTap: () {
+                    Get.find<MainBottomNavController>().showCategoryList();
+                  },
+                  tittle: 'Popular',
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: getPopularList()),
+                ),
+                CategoryTextWidget(
+                  onTap: () {
+                    Get.find<MainBottomNavController>().showCategoryList();
+                  },
+                  tittle: 'Special',
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: getSpecialList()),
+                ),
+                CategoryTextWidget(
+                  onTap: () {
+                    Get.find<MainBottomNavController>().showCategoryList();
+                  },
+                  tittle: 'New',
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: getNewList()),
+                ),
+              ],
+            ),
+          ),
         ));
   }
 
@@ -122,7 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return popularList;
   }
-
 
   List<Widget> getNewList() {
     List<Widget> newList = [];
