@@ -35,7 +35,7 @@ final List<Widget> screens=[
             NavigationDestination(icon: Icon(Icons.home,), label: 'Home'),
             NavigationDestination(icon: Icon(Icons.category), label: 'Category'),
             NavigationDestination(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-            NavigationDestination(icon: Icon(Icons.favorite), label: 'Home'),
+            NavigationDestination(icon: Icon(Icons.favorite), label: 'WishList'),
           ],
           selectedIndex: controller.selectedIndex,
           onDestinationSelected: controller.changeIndex,

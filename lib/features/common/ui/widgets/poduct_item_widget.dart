@@ -1,5 +1,6 @@
 import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/assets_path.dart';
+import 'package:ecomers_app/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -13,7 +14,9 @@ class ProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},//TODO
+      onTap: (){
+        Navigator.pushNamed(context, ProductDetailsScreen.name,arguments: 1);
+      },
       child: SizedBox(
         width: 140,
         child: Card(
@@ -71,5 +74,8 @@ class ProductItemWidget extends StatelessWidget {
             )),
       ),
     );
+
+
   }
+
 }

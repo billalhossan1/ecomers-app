@@ -3,7 +3,7 @@ import 'package:ecomers_app/features/common/controller/main_bottom_nav_controlle
 import 'package:ecomers_app/features/home/ui/widgets/category_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_text_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/home_carosel_slider.dart';
-import 'package:ecomers_app/features/home/ui/widgets/poduct_item_widget.dart';
+import 'package:ecomers_app/features/common/ui/widgets/poduct_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/product_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

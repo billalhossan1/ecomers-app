@@ -1,4 +1,5 @@
 import 'package:ecomers_app/app/app_color.dart';
+import 'package:ecomers_app/features/product/ui/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItemWidget extends StatelessWidget {
@@ -6,12 +7,13 @@ class CategoryItemWidget extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return
       GestureDetector(
-        onTap: () {},
+        onTap: (){
+          Navigator.pushNamed(context, ProductListScreen.name,arguments: 'Computer');
+        },
         child: Column(
           children: [
             Container(
