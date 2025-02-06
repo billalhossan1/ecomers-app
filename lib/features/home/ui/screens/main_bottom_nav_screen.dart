@@ -1,10 +1,9 @@
-import 'package:ecomers_app/app/assets_path.dart';
+
+import 'package:ecomers_app/features/cart/ui/screens/cart_screen.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
 import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
-import 'package:ecomers_app/features/home/ui/screens/cart_screen.dart';
-import 'package:ecomers_app/features/home/ui/screens/wishlist_screen.dart';
+import 'package:ecomers_app/features/wish-list/ui/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'home_screen.dart';

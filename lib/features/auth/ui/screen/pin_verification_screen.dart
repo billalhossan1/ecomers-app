@@ -3,14 +3,19 @@ import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/app_constant.dart';
-import 'package:ecomers_app/features/auth/ui/screen/register_screen.dart';
+import 'package:ecomers_app/features/auth/controller/otp_verification_controller.dart';
+import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
+import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PinVerificationScreen extends StatefulWidget {
-  const PinVerificationScreen({super.key});
+  const PinVerificationScreen({super.key, required this.email});
   static String name = '/PinVerificationScreen';
+  final String email;
 
   @override
   State<PinVerificationScreen> createState() => _PinVerificationScreenState();
@@ -21,6 +26,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
    int time=AppConstant.timer;
   bool enableResendButton = false;
   final TextEditingController _pinCodeTEController = TextEditingController();
+  final otpVerificationController=Get.find<OtpVerifiactionController>();
 
   @override
   void initState() {
@@ -68,7 +74,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
               const SizedBox(height: 24),
               PinCodeTextField(
                 controller: _pinCodeTEController,
-                length: 6,
+                length: 4,
                 obscureText: false,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
@@ -82,7 +88,16 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                 appContext: context,
               ),
               const SizedBox(height: 16),
-              AppThemeData.nextButton(onPressed: _moveToNextScreen),
+              GetBuilder<OtpVerifiactionController>(
+                builder: (controller) {
+                  if(controller.inProgress){
+                    return const centerCircularProgressIndicator();
+                  }
+                  else{
+                    return AppThemeData.nextButton(onPressed: _moveToNextScreen);
+                  }
+                }
+              ),
               const SizedBox(height: 32),
               Visibility(
                 visible: !enableResendButton,
@@ -131,7 +146,18 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
     );
   }
 
-  void _moveToNextScreen() {
-    Navigator.pushNamed(context, RegisterScreen.name);
+  Future<void> _moveToNextScreen() async {
+    bool isSuccess= await otpVerificationController.verifyOtp(widget.email, _pinCodeTEController.text.trim());
+    if(isSuccess){
+      if(mounted){
+        showSnackBarMessage(context, otpVerificationController.message!);
+        Navigator.pushNamed(context, MainBottomNavBar.name);
+      }
+    }
+    else{
+      if(mounted){
+        showSnackBarMessage(context, otpVerificationController.errorMessage!,true);
+      }
+    }
   }
 }

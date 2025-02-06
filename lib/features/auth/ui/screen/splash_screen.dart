@@ -1,5 +1,6 @@
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
+import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -25,6 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed (
         const Duration(seconds: 3));
     Navigator.pushNamed(context, LoginScreen.name);
+
+
   }
 
   @override

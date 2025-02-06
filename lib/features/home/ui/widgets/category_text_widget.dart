@@ -6,11 +6,11 @@ class CategoryTextWidget extends StatelessWidget {
   const CategoryTextWidget({
     super.key,
     required this.tittle,
-    required this.onTap,
+    required this.onTapSeeAll,
   });
 
   final String tittle;
-  final VoidCallback onTap;
+  final VoidCallback onTapSeeAll;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CategoryTextWidget extends StatelessWidget {
       children: [
         AppThemeData.primaryText(tittle),
         TextButton(
-          onPressed: onTap,
+          onPressed: onTapSeeAll,
           child: const Text(
             'See All',
             style: TextStyle(

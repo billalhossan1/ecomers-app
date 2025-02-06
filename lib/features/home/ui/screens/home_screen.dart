@@ -5,6 +5,7 @@ import 'package:ecomers_app/features/home/ui/widgets/category_text_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/home_carosel_slider.dart';
 import 'package:ecomers_app/features/common/ui/widgets/poduct_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/product_search_bar.dart';
+import 'package:ecomers_app/features/product/ui/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 16,
                 ),
                 CategoryTextWidget(
-                  onTap: () {
+                  onTapSeeAll: () {
                     Get.find<MainBottomNavController>().showCategoryList();
                   },
                   tittle: 'All Categories',
@@ -86,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(children: getCategoryList()),
                 ),
                 CategoryTextWidget(
-                  onTap: () {
-                    Get.find<MainBottomNavController>().showCategoryList();
+                  onTapSeeAll: () {
+                    Navigator.pushNamed(context,  ProductListScreen.name,arguments:'Popular' );
                   },
                   tittle: 'Popular',
                 ),
@@ -96,8 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(children: getPopularList()),
                 ),
                 CategoryTextWidget(
-                  onTap: () {
-                    Get.find<MainBottomNavController>().showCategoryList();
+                  onTapSeeAll: () {
+                    Navigator.pushNamed(context,  ProductListScreen.name,arguments:'Special' );
                   },
                   tittle: 'Special',
                 ),
@@ -106,8 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(children: getSpecialList()),
                 ),
                 CategoryTextWidget(
-                  onTap: () {
-                    Get.find<MainBottomNavController>().showCategoryList();
+                  onTapSeeAll: () {
+                    Navigator.pushNamed(context,  ProductListScreen.name,arguments:'New' );
                   },
                   tittle: 'New',
                 ),

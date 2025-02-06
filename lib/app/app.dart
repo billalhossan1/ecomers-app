@@ -5,10 +5,14 @@ import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
 import 'package:ecomers_app/features/auth/ui/screen/pin_verification_screen.dart';
 import 'package:ecomers_app/features/auth/ui/screen/register_screen.dart';
 import 'package:ecomers_app/features/auth/ui/screen/splash_screen.dart';
+import 'package:ecomers_app/features/cart/ui/screens/cart_screen.dart';
 import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
+import 'package:ecomers_app/features/wish-list/ui/screens/wishlist_screen.dart';
+import 'package:ecomers_app/features/product/ui/screens/create_review_screen.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_details_screen.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_list_screen.dart';
+import 'package:ecomers_app/features/product/ui/screens/review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +34,8 @@ class CraftyBay extends StatelessWidget {
               widget = const LoginScreen();
             }else if(settings.name == PinVerificationScreen.name)
         {
-          widget = const PinVerificationScreen();
+          String email = settings.arguments as String;
+          widget = PinVerificationScreen(email: email,);
         }else if(settings.name == RegisterScreen.name)
         {
           widget = const RegisterScreen();
@@ -48,7 +53,19 @@ class CraftyBay extends StatelessWidget {
         {
           int productId = settings.arguments as int;
           widget = ProductDetailsScreen(productId: productId);
-        }
+        }else if(settings.name == ReviewScreen.name)
+          {
+            widget = const ReviewScreen();
+          }else if(settings.name == CreateReviewScreen.name)
+          {
+            widget = const CreateReviewScreen();
+          }else if(settings.name == WishListScreen.name)
+          {
+            widget = const WishListScreen();
+          }else if(settings.name == CartScreen.name)
+          {
+            widget = const CartScreen();
+          }
         return MaterialPageRoute(builder: (ctx){
           return widget;
         });

@@ -2,8 +2,7 @@ import 'package:ecomers_app/app/app_color.dart';
 import 'package:flutter/material.dart';
 
 class ColorPickerWidget extends StatefulWidget {
-  const ColorPickerWidget(
-      {super.key, required this.colors});
+  const ColorPickerWidget({super.key, required this.colors});
   final List<String> colors;
 
   @override
@@ -11,6 +10,8 @@ class ColorPickerWidget extends StatefulWidget {
 }
 
 class _ColorPickerWidgetState extends State<ColorPickerWidget> {
+  String? _selectedColor;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,23 +24,34 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
   List<Widget> getColorItems() {
     List<Widget> colorList = [];
     for (String color in widget.colors) {
-      colorList.add(colorItemDesign(color, (){}));
+      Widget item = colorItemDesign(
+        name: color,
+        onTap: () {
+          _selectedColor = color;
+          setState(() {});
+        },
+        isSelected: _selectedColor == color,
+      );
+      colorList.add(item);
     }
     return colorList;
   }
-  Widget colorItemDesign(String name,VoidCallback onTap)
-  {
+
+  Widget colorItemDesign(
+      {required String name,
+      required VoidCallback onTap,
+      required bool isSelected}) {
     return GestureDetector(
-      onTap: (){},
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(right: 6),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all()
-        ),
+            border: Border.all(),
+            color: isSelected ? AppColor.themeColor : Colors.transparent),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Text(name),
+          child: Text(name,style: TextStyle(color: isSelected ? Colors.white : Colors.black54),),
         ),
       ),
     );

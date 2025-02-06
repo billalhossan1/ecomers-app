@@ -1,9 +1,12 @@
 import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/app/assets_path.dart';
+import 'package:ecomers_app/features/auth/controller/register_controller.dart';
 import 'package:ecomers_app/features/auth/ui/screen/pin_verification_screen.dart';
-import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
+import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,11 +20,21 @@ class RegisterScreen extends StatefulWidget {
 final TextEditingController _firstNameTEController = TextEditingController();
 final TextEditingController _lastNameTEController = TextEditingController();
 final TextEditingController _mobileTEController = TextEditingController();
-final TextEditingController _cityTEController = TextEditingController();
-final TextEditingController _addressTEController = TextEditingController();
+final TextEditingController _passwordTEController = TextEditingController();
+final TextEditingController _emailAddressTEController = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  late RegisterController _registerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _registerController = Get.find<RegisterController>();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Mobile',
                     1,
                     _mobileTEController,
-                    (value) {
+                        (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Your Mobile Number';
                       }
@@ -80,25 +93,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextInputType.number,
                   ),
                   const SizedBox(height: 12),
-                  AppThemeData.textFormField('City', 1, _cityTEController,
-                      (value) {
+                  AppThemeData.textFormField(
+                      'Password', 1, _passwordTEController, (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please Enter Your City Name';
+                      return 'Please Enter Your Password';
                     } else {
                       return null;
                     }
                   }, TextInputType.text),
                   const SizedBox(height: 12),
                   AppThemeData.textFormField(
-                      'Shipping Address', 3, _addressTEController, (value) {
+                      'Email Address', 3, _emailAddressTEController, (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please Enter Your Shipping Address';
+                      return 'Please Enter Your Email Address';
                     } else {
                       return null;
                     }
-                  }, TextInputType.streetAddress),
+                  }, TextInputType.emailAddress),
                   const SizedBox(height: 23),
-                  AppThemeData.nextButton(onPressed: _moveToNextScreen,name: 'Complete')
+                  GetBuilder<RegisterController>(builder: (controller) {
+                    if (controller.inProgress) {
+                      return const centerCircularProgressIndicator();
+                    } else {
+                      return AppThemeData.nextButton(
+                          onPressed: _moveToCompleteScreen, name: 'Complete');
+                    }
+                  })
                 ],
               ),
             ),
@@ -107,10 +127,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+  @override
+  void dispose(){
+    //TODO
+    super.dispose();
+  }
 
-  void _moveToNextScreen() {
+
+  Future<void> _moveToCompleteScreen() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, MainBottomNavBar.name);
+      bool isSuccess = await _registerController.verifyRegister(
+        firstname: _firstNameTEController.text.trim(),
+        lastname: _lastNameTEController.text.trim(),
+        email: _emailAddressTEController.text.trim(),
+        password: _passwordTEController.text.trim(),
+        phone: _mobileTEController.text.trim(),
+      );
+      if (isSuccess) {
+        if (mounted) {
+          showSnackBarMessage(context, _registerController.message!);
+          Navigator.pushNamed(context, PinVerificationScreen.name,
+              arguments: _emailAddressTEController.text.trim());
+          print('Success');
+        }
+      } else {
+        if (mounted) {
+          showSnackBarMessage(context, _registerController.errorMessage!, true);
+          print('Not Success');
+        }
+      }
     }
   }
 }
