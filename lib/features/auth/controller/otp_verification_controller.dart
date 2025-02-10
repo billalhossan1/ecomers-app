@@ -18,11 +18,11 @@ class OtpVerifiactionController extends GetxController{
     final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.otpVerficationUrl,body: body);
     if(response.isSuccess){
       errorMessage=null;
-      message=response.responseData["msg"];
+      message="Account Created successfully";
       isSuccess=true;
       return isSuccess;
     }else{
-      errorMessage=response.responseData["msg"];
+      errorMessage="Something went wrong";
     }
     _inProgress=false;
     update();

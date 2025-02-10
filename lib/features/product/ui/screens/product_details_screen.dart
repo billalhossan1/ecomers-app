@@ -92,7 +92,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     const SizedBox(
                       height: 8,
                     ),
-                    ColorPickerWidget(
+                    const ColorPickerWidget(
                       colors: ['Red', 'Green', 'Black', 'Yellow', 'Blue'],
                     ),
                     const SizedBox(
@@ -108,7 +108,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     const SizedBox(
                       height: 8,
                     ),
-                    SizePickerWidget(sizes: ['S', 'M', 'L', 'XL', 'XXL']),
+                    const SizePickerWidget(sizes: ['S', 'M', 'L', 'XL', 'XXL']),
                     const SizedBox(
                       height: 8,
                     ),

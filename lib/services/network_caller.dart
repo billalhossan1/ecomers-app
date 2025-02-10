@@ -30,7 +30,7 @@ class NetworkCaller {
       _logRequest(url);
       Response response = await get(uri, headers: headers);
       _logResponse(url, response.statusCode, response.headers, response.body);
-      if (response.statusCode == 200||response.statusCode==201) {
+      if (response.statusCode == 200) {
         final decodedMessage = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: true,
@@ -58,7 +58,7 @@ class NetworkCaller {
       Response response =
       await post(uri, headers: headers, body: jsonEncode(body));
       _logResponse(url, response.statusCode, response.headers, response.body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200||response.statusCode==201) {
         final decodedMessage = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: true,

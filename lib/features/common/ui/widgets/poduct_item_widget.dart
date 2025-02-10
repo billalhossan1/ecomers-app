@@ -40,31 +40,31 @@ class ProductItemWidget extends StatelessWidget {
 
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         tittle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(2),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('\$$price',style: TextStyle(fontWeight: FontWeight.w600,color: AppColor.themeColor),),
-                          SizedBox(width: 6,),
+                          Text('\$$price',style: const TextStyle(fontWeight: FontWeight.w600,color: AppColor.themeColor),),
+                          const SizedBox(width: 6,),
                           Wrap(
                             children: [
-                              Icon(Icons.star,color: Colors.amber,size: 18,),
-                              Text('$rating',style: TextStyle(fontWeight: FontWeight.w400),),
+                              const Icon(Icons.star,color: Colors.amber,size: 18,),
+                              Text('$rating',style: const TextStyle(fontWeight: FontWeight.w400),),
                             ],
                           ),
-                          SizedBox(width: 8,),
-                          Icon(Icons.favorite,size: 18,)
+                          const SizedBox(width: 8,),
+                          const Icon(Icons.favorite,size: 18,)
                         ],
                       ),
                     )

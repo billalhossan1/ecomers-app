@@ -4,9 +4,9 @@ import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/app_constant.dart';
 import 'package:ecomers_app/features/auth/controller/otp_verification_controller.dart';
+import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
-import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -91,7 +91,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
               GetBuilder<OtpVerifiactionController>(
                 builder: (controller) {
                   if(controller.inProgress){
-                    return const centerCircularProgressIndicator();
+                    return const CenterCircularProgressIndicator();
                   }
                   else{
                     return AppThemeData.nextButton(onPressed: _moveToNextScreen);
@@ -151,7 +151,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
     if(isSuccess){
       if(mounted){
         showSnackBarMessage(context, otpVerificationController.message!);
-        Navigator.pushNamed(context, MainBottomNavBar.name);
+        Navigator.pushNamed(context, LoginScreen.name);
       }
     }
     else{

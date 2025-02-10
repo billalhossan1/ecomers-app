@@ -1,5 +1,4 @@
 import 'package:ecomers_app/app/urls.dart';
-import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/services/network_caller.dart';
 import 'package:get/get.dart';
 
@@ -35,11 +34,10 @@ class RegisterController extends GetxController {
     if(response.isSuccess){
       isSuccess=true;
       _errorMessage=null;
-      _message= response.responseData["msg"]??"Account Created Successfully";
+      _message= "Otp sent Successfully";
 
     }else{
-      isSuccess=false;
-      _errorMessage=response.responseData["msg"];
+      _errorMessage="something went wrong";
     }
 
     return isSuccess;
