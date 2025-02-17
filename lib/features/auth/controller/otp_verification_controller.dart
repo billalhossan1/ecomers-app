@@ -1,4 +1,6 @@
 import 'package:ecomers_app/app/urls.dart';
+import 'package:ecomers_app/features/auth/data/model/sign_in_model.dart';
+import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/services/network_caller.dart';
 import 'package:get/get.dart';
 
@@ -16,15 +18,20 @@ class OtpVerifiactionController extends GetxController{
       "otp":otp
     };
     final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.otpVerficationUrl,body: body);
+    _inProgress=false;
     if(response.isSuccess){
       errorMessage=null;
       message="Account Created successfully";
+      SignInModel signInModel = SignInModel.fromJson(response.responseData);
+      await Get.find<AuthController>().saveUserData(
+        signInModel.data!.token!,
+        signInModel.data!.user!,
+      );
       isSuccess=true;
-      return isSuccess;
     }else{
       errorMessage="Something went wrong";
     }
-    _inProgress=false;
+
     update();
     return isSuccess;
   }

@@ -2,6 +2,7 @@
 import 'package:ecomers_app/features/cart/ui/screens/cart_screen.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
 import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
+import 'package:ecomers_app/features/home/controller/slider_list_controller.dart';
 import 'package:ecomers_app/features/wish-list/ui/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,13 @@ class MainBottomNavBar extends StatefulWidget {
   State<MainBottomNavBar> createState() => _MainBottomNavBarState();
 }
 
+
 class _MainBottomNavBarState extends State<MainBottomNavBar> {
+  @override
+  void initState() {
+    Get.find<SliderListController>().getSliders();
+    super.initState();
+  }
 final List<Widget> screens=[
   const HomeScreen(),
   const CategoryListScreen(),

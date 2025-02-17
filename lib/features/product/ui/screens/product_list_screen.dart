@@ -2,8 +2,10 @@ import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/features/common/ui/widgets/poduct_item_widget.dart';
 import 'package:flutter/material.dart';
 class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({super.key, required this.categoryName});
+  const ProductListScreen({super.key, required this.categoryName, required this.categoryID});
   final String categoryName;
+  final String categoryID;
+
   static const String name='/product_list_screen';
 
   @override

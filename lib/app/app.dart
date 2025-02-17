@@ -8,6 +8,7 @@ import 'package:ecomers_app/features/auth/ui/screen/splash_screen.dart';
 import 'package:ecomers_app/features/cart/ui/screens/cart_screen.dart';
 import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
+import 'package:ecomers_app/features/home/ui/screens/profile_screen.dart';
 import 'package:ecomers_app/features/wish-list/ui/screens/wishlist_screen.dart';
 import 'package:ecomers_app/features/product/ui/screens/create_review_screen.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_details_screen.dart';
@@ -45,10 +46,13 @@ class CraftyBay extends StatelessWidget {
         }else if(settings.name == CategoryListScreen.name)
         {
           widget = const CategoryListScreen();
-        }else if(settings.name ==ProductListScreen.name)
+        }else if(settings.name == ProductListScreen.name)
         {
-          String categoryName = settings.arguments as String;
-          widget = ProductListScreen(categoryName: categoryName,);
+          Map<String, dynamic> args = settings.arguments as Map<String, dynamic>;
+          widget = ProductListScreen(
+            categoryName: args['categoryName'],
+            categoryID: args['categoryId'],
+          );
         }else if(settings.name ==ProductDetailsScreen.name)
         {
           int productId = settings.arguments as int;
@@ -65,6 +69,9 @@ class CraftyBay extends StatelessWidget {
           }else if(settings.name == CartScreen.name)
           {
             widget = const CartScreen();
+          }else if(settings.name == ProfileScreen.name)
+          {
+            widget = const ProfileScreen();
           }
         return MaterialPageRoute(builder: (ctx){
           return widget;

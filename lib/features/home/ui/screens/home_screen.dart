@@ -1,5 +1,8 @@
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
+import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:ecomers_app/features/home/controller/slider_list_controller.dart';
+import 'package:ecomers_app/features/home/ui/screens/profile_screen.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_text_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/home_carosel_slider.dart';
@@ -19,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController searchBarController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 CircleAvatar(
                     backgroundColor: Colors.grey,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, ProfileScreen.name);
+                      },
                       icon: const Icon(
                         Icons.person,
                         color: Colors.white,
@@ -72,7 +79,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                HomeCaroselSlider(),
+                GetBuilder<SliderListController>(
+                  builder: (controller) {
+                    return Visibility(
+                      visible: !controller.inProgress,
+                      replacement: const CenterCircularProgressIndicator(),
+                      child: HomeCaroselSlider(
+                        sliderList: controller.bannerList,
+                      ),
+                    );
+                  }
+                ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -88,7 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 CategoryTextWidget(
                   onTapSeeAll: () {
-                    Navigator.pushNamed(context,  ProductListScreen.name,arguments:'Popular' );
+                    Navigator.pushNamed(context, ProductListScreen.name,
+                        arguments: 'Popular');
                   },
                   tittle: 'Popular',
                 ),
@@ -98,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 CategoryTextWidget(
                   onTapSeeAll: () {
-                    Navigator.pushNamed(context,  ProductListScreen.name,arguments:'Special' );
+                    Navigator.pushNamed(context, ProductListScreen.name,
+                        arguments: 'Special');
                   },
                   tittle: 'Special',
                 ),
@@ -108,7 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 CategoryTextWidget(
                   onTapSeeAll: () {
-                    Navigator.pushNamed(context,  ProductListScreen.name,arguments:'New' );
+                    Navigator.pushNamed(context, ProductListScreen.name,
+                        arguments: 'New');
                   },
                   tittle: 'New',
                 ),
@@ -124,12 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> getCategoryList() {
     List<Widget> categoryList = [];
-    for (int i = 0; i < 10; i++) {
-      categoryList.add(const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: CategoryItemWidget(),
-      ));
-    }
+    // for (int i = 0; i < 10; i++) {
+    //   categoryList.add(const Padding(
+    //     padding: EdgeInsets.all(8.0),
+    //     child: CategoryItemWidget(),
+    //   ));
+    // }
     return categoryList;
   }
 

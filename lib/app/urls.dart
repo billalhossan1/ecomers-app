@@ -3,5 +3,7 @@ class Urls{
   static  String loginUrl='$_basicUrl/auth/login';
   static String otpVerficationUrl = '$_basicUrl/auth/verify-otp';
   static String registerUrl = '$_basicUrl/auth/signup';
+  static String sliderListUrl = '$_basicUrl/slides';
+  static String categoryListUrl = '$_basicUrl/categories';
 
 }
