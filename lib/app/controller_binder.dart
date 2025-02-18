@@ -20,6 +20,7 @@ class ControllerBinder extends Bindings
     Get.put(SliderListController());
     Get.put(RegisterController());
     Get.put(CategoryListPaginationController());
+    // Get.put(HomeCategoryListController());
   }
 
 }

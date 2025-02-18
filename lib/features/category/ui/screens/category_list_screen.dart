@@ -16,10 +16,15 @@ class CategoryListScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryListScreen> {
   final CategoryListPaginationController _categoryListPaginationController = Get.find<CategoryListPaginationController>();
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
+    _scrollController.addListener(_loadMoreData);
     _categoryListPaginationController.getCategoryList();
     super.initState();
+  }
+  void _loadMoreData(){
+    _categoryListPaginationController.getCategoryList();
   }
   @override
   Widget build(BuildContext context) {
@@ -36,22 +41,45 @@ class _CategoryScreenState extends State<CategoryListScreen> {
               icon: const Icon(Icons.arrow_back_ios),
             ),
           ),
-          body: GetBuilder<CategoryListPaginationController>(
-            builder: (controller) {
-              if(controller.inProgress){
-                return const CenterCircularProgressIndicator();
+          body: RefreshIndicator(
+            onRefresh: ()async{
+              Get.find<CategoryListPaginationController>().refreshCategoryList();
+            },
+            child: GetBuilder<CategoryListPaginationController>(
+              builder: (controller) {
+                if(controller.initialInProgress){
+                  return const CenterCircularProgressIndicator();
+                }
+                else{
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: GridView.builder(
+                          controller: _scrollController,
+                            itemCount: controller.categoryList.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3, crossAxisSpacing: 4, mainAxisSpacing: 16),
+                            itemBuilder: (context, index) {
+                              return  FittedBox(child: CategoryItemWidget(categoryModel: controller.categoryList[index],));
+                            }),
+                      ),
+                      Visibility(
+                        visible: controller.inProgress,
+                          child: const LinearProgressIndicator())
+                    ],
+                  );
+                }
               }
-              else{
-                return GridView.builder(
-                    itemCount: 20,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3, crossAxisSpacing: 4, mainAxisSpacing: 16),
-                    itemBuilder: (context, index) {
-                      return  FittedBox(child: CategoryItemWidget(categoryModel: controller.categoryList![index],));
-                    });
-              }
-            }
+            ),
           )),
     );
   }
+  @override
+  void dispose(){
+    super.dispose();
+    _scrollController.dispose();
+
+
+  }
+
 }

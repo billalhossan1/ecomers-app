@@ -7,16 +7,21 @@ import 'package:get/get.dart';
 class CategoryListPaginationController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
+  bool get initialInProgress => _page==1&&_inProgress==true;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
-  CategoryListPaginationModel? _categoryListPaginationModel;
-  List<CategoryModel>? get categoryList =>
-      _categoryListPaginationModel?.data?.results;
 
-  final int _count = 20;
-  int _page = 1;
+  List<CategoryModel>  _categoryList = [];
+  List<CategoryModel> get categoryList =>_categoryList;
+
+   final int _count =21;
+  int _page = 0;
+  int? _lastPage;
 
   Future<bool> getCategoryList() async {
+    if(_lastPage!=null && _page>_lastPage!)return false;
+    _page++;
+    // if(seeAll!=false&&_page>1)return false;
     bool isSuccess = false;
     _inProgress = true;
     update();
@@ -32,13 +37,24 @@ class CategoryListPaginationController extends GetxController {
     update();
     if (response.isSuccess) {
       isSuccess = true;
-      _categoryListPaginationModel = CategoryListPaginationModel.fromJson(
+      CategoryListPaginationModel categoryListPaginationModel= CategoryListPaginationModel.fromJson(
         response.responseData,
       );
+      _categoryList.addAll(categoryListPaginationModel.data!.results??[]);
+
+      if(categoryListPaginationModel.data!.lastPage!=null){
+        _lastPage=categoryListPaginationModel.data!.lastPage!;
+      }
     } else {
       _errorMessage = response.errorMessage;
     }
 
     return isSuccess;
+  }
+  Future<bool> refreshCategoryList() async {
+    _page = 0;
+    _lastPage = null;
+    _categoryList.clear();
+    return getCategoryList();
   }
 }

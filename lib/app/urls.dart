@@ -5,5 +5,6 @@ class Urls{
   static String registerUrl = '$_basicUrl/auth/signup';
   static String sliderListUrl = '$_basicUrl/slides';
   static String categoryListUrl = '$_basicUrl/categories';
+  static String readCategoryUrl = '$_basicUrl/categories';
 
 }
