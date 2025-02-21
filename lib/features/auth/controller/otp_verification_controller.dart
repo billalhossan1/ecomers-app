@@ -17,7 +17,7 @@ class OtpVerifiactionController extends GetxController{
       "email":email,
       "otp":otp
     };
-    final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.otpVerficationUrl,body: body);
+    final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.otpVerifyUrl,body: body);
     _inProgress=false;
     if(response.isSuccess){
       errorMessage=null;

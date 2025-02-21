@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // }
     return newList;
   }
-  List<Widget> getCategoryList(){
+  Future<List<Widget>> getCategoryList()async{
     List<Widget> categoryList = [];
 
     for (int i = 0; i < 11; i++) {
@@ -159,67 +159,84 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                GetBuilder<CategoryListPaginationController>(
-                  builder: (controller) {
-                    return Column(
-                      children: [
-                        for (int i = 0; i < controller.categoryList.length; i++)
-                          CategoryTextWidget(
-                            onTapSeeAll: () {
-                              Get.find<MainBottomNavController>().showCategoryList();
-                            },
-                            tittle: 'Category',
-                          ),
-                      ],
-                    );
-                  },
-                ),
+              GetBuilder<CategoryListPaginationController>(
+                builder: (controller) {
+                  return Column(
+                    children: [
+                      for (int i = 0; i < controller.categoryList.length && i < 10; i++)
+                        CategoryTextWidget(
+                          onTapSeeAll: () {
+                            Get.find<MainBottomNavController>().showCategoryList();
+                          },
+                          categoryModel: controller.categoryList[i],
+                        ),
+                    ],
+                  );
+                },
+              ),
 
-                GetBuilder<CategoryListPaginationController>(
-                  builder: (controller) {
-                    return Visibility(
-                      visible: !controller.inProgress,
-                      replacement: const CenterCircularProgressIndicator(),
-                      child: SingleChildScrollView(
+
+              GetBuilder<CategoryListPaginationController>(
+              builder: (controller) {
+                return Visibility(
+                  visible: !controller.initialInProgress,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: FutureBuilder<List<Widget>>(
+                    future: getCategoryList(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CenterCircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return const Center(child: Text("Error loading categories"));
+                      }
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text("No categories available"));
+                      }
+                      return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(children:  getCategoryList()),
-                      ),
-                    );
-                  }
-                ),
-                CategoryTextWidget(
-                  onTapSeeAll: () {
-                    Navigator.pushNamed(context, ProductListScreen.name,
-                        arguments: 'Popular');
-                  },
-                  tittle: 'Popular',
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: getPopularList()),
-                ),
-                CategoryTextWidget(
-                  onTapSeeAll: () {
-                    Navigator.pushNamed(context, ProductListScreen.name,
-                        arguments: 'Special');
-                  },
-                  tittle: 'Special',
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: getSpecialList()),
-                ),
-                CategoryTextWidget(
-                  onTapSeeAll: () {
-                    Navigator.pushNamed(context, ProductListScreen.name,
-                        arguments: 'New');
-                  },
-                  tittle: 'New',
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: getNewList()),
-                ),
+                        child: Row(children: snapshot.data!),
+                      );
+                    },
+                  ),
+                );
+              },
+            )
+
+
+            // CategoryTextWidget(
+                //   onTapSeeAll: () {
+                //     Navigator.pushNamed(context, ProductListScreen.name,
+                //         arguments: 'Popular');
+                //   },
+                //   tittle: 'Popular',
+                // ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(children: getPopularList()),
+                // ),
+                // CategoryTextWidget(
+                //   onTapSeeAll: () {
+                //     Navigator.pushNamed(context, ProductListScreen.name,
+                //         arguments: 'Special');
+                //   },
+                //   tittle: 'Special',
+                // ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(children: getSpecialList()),
+                // ),
+                // CategoryTextWidget(
+                //   onTapSeeAll: () {
+                //     Navigator.pushNamed(context, ProductListScreen.name,
+                //         arguments: 'New');
+                //   },
+                //   tittle: 'New',
+                // ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(children: getNewList()),
+                // ),
               ],
             ),
           ),
