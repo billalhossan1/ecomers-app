@@ -7,6 +7,8 @@ class Urls{
   static String categoryListUrl = '$_basicUrl/categories';
   static String readCategoryUrl = '$_basicUrl/categories';
   static String profileUrl = '$_basicUrl/auth/profile';
+  static String cartListUrl = '$_basicUrl/cart';
+  static String cartDeleteUrl(String cartId) => '$_basicUrl/cart/$cartId';
 
 
 }

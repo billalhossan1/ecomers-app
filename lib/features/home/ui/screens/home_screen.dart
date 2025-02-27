@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CategoryItemWidget(categoryModel: _categoryListPaginationController.categoryList[i],)
       ));
     }
-    print('Total categories: ${_categoryListPaginationController.categoryList.length}');
+    // print('Total categories: ${_categoryListPaginationController.categoryList.length}');
     return categoryList;
   }
 

@@ -18,13 +18,15 @@ class SliderListController extends GetxController {
     _inProgress = true;
     final NetworkResponse response =
         await Get.find<NetworkCaller>().getRequest(Urls.sliderListUrl);
-    _inProgress = false;
+
     if (response.isSuccess) {
       isSuccess=true;
       _sliderListModel = SliderListModel.fromJson(response.responseData);
     }else{
       errorMessage = response.errorMessage;
     }
+    _inProgress = false;
+
     update();
     return isSuccess;
   }

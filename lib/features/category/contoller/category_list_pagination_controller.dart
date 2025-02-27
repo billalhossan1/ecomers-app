@@ -33,8 +33,7 @@ class CategoryListPaginationController extends GetxController {
       Urls.categoryListUrl,
       queryParam: queryParam,
     );
-    _inProgress = false;
-    update();
+
     if (response.isSuccess) {
       isSuccess = true;
       CategoryListPaginationModel categoryListPaginationModel= CategoryListPaginationModel.fromJson(
@@ -48,6 +47,8 @@ class CategoryListPaginationController extends GetxController {
     } else {
       _errorMessage = response.errorMessage;
     }
+    _inProgress = false;
+    update();
 
     return isSuccess;
   }

@@ -17,11 +17,17 @@ class AuthController extends GetxController {
     accessToken = token;
     profileModel = userModel;
   }
+  // Future<void>saveUserModel(UserModel userModel) async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   sharedPreferences.setString(
+  //       _profileDataKey, jsonEncode(userModel.toJson()));
+  //   profileModel=userModel;
+  // }
 
   Future<void> getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     accessToken = sharedPreferences.getString(_accessTokenKey);
-    sharedPreferences.getString(_accessTokenKey);
+    //sharedPreferences.getString(_accessTokenKey);
     String? profileData = sharedPreferences.getString(_profileDataKey);
     if (profileData != null) {
       profileModel = UserModel.fromJson(jsonDecode(profileData));
@@ -38,24 +44,6 @@ class AuthController extends GetxController {
     accessToken = null;
   }
 
-
-  void updateProfile({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String phone,
-    required String city, // If updating profile picture
-  }) {
-    if (profileModel != null) {
-      profileModel = UserModel(
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        city: city,
-      );
-
-      update();
-    }
-  }
 }
+
+

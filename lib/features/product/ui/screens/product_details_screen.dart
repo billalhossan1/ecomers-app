@@ -44,7 +44,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 color: Colors.black54),
                           ),
                         ),
-                        ProductIncrementDecrementButton()
+                        // ProductIncrementDecrementButton(cartModel: null,)
                       ],
                     ),
                     Row(

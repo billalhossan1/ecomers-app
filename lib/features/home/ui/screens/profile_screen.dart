@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecomers_app/features/auth/data/model/user_model.dart';
 import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
-import 'package:ecomers_app/features/home/controller/get_profile_controller.dart';
-import 'package:ecomers_app/features/home/data/model/profile_model.dart';
+import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
+import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
+import 'package:ecomers_app/features/home/controller/update_profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,12 +22,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _phoneTEController = TextEditingController();
   final TextEditingController _cityTEController = TextEditingController();
 
-  final UserModel? _userModel = Get.find<AuthController>().profileModel;
+ // final UserModel? _userModel = Get.find<AuthController>().profileModel;
 
   @override
   void initState() {
-    _loadProfileData();
     super.initState();
+    _loadProfileData();
+
   }
 
   @override
@@ -40,7 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: GetBuilder<AuthController>(
         builder: (authController) {
           final userModel = authController.profileModel;
-
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -61,54 +61,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 width: 100,
                                 height: 100,
                                 placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.grey),
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.person,
+                                        size: 50, color: Colors.grey),
                               ),
                             )
-                          : Icon(Icons.person, size: 50, color: Colors.grey),
+                          : const Icon(Icons.person,
+                              size: 50, color: Colors.grey),
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Handle image picker or camera action
+
                       },
-                      child: CircleAvatar(
-                        radius: 20,
+                      child: const CircleAvatar(
+                        radius: 16,
                         backgroundColor: Colors.blue,
                         child: Icon(Icons.camera_alt_outlined),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _firstNameTEController,
-                  decoration: InputDecoration(labelText: 'First Name'),
+                  decoration: const InputDecoration(labelText: 'First Name'),
                 ),
                 TextField(
                   controller: _lastNameTEController,
-                  decoration: InputDecoration(labelText: 'Last Name'),
+                  decoration: const InputDecoration(labelText: 'Last Name'),
                 ),
                 TextField(
+                  enabled: false,
                   controller: _emailNameTEController,
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                 ),
                 TextField(
                   controller: _phoneTEController,
-                  decoration: InputDecoration(labelText: 'Phone'),
+                  decoration: const InputDecoration(labelText: 'Phone'),
                 ),
                 TextField(
                   controller: _cityTEController,
-                  decoration: InputDecoration(labelText: 'City'),
+                  decoration: const InputDecoration(labelText: 'City'),
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Update"),
-                ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
+                GetBuilder<UpdateProfileController>(builder: (controller) {
+                  return Visibility(
+                    visible: !controller.inProgress,
+                    replacement: const CenterCircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _onPressedUpdate();
+                      },
+                      child: const Text('Update'),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     _onPressedLoggedOut(context);
@@ -123,31 +132,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _loadProfileData() {
+  void _loadProfileData() async{
+    await Future.delayed(const Duration(milliseconds: 300));
     final userModel = Get.find<AuthController>().profileModel;
 
     if (userModel != null) {
-      _firstNameTEController.text = userModel.firstName ?? '';
-      _lastNameTEController.text = userModel.lastName ?? '';
-      _emailNameTEController.text = userModel.email ?? '';
-      _phoneTEController.text = userModel.phone ?? '';
-      _cityTEController.text = userModel.city ?? '';
+      setState(() {
+        _firstNameTEController.text = userModel.firstName ?? '';
+        _lastNameTEController.text = userModel.lastName ?? '';
+        _emailNameTEController.text = userModel.email ?? '';
+        _phoneTEController.text = userModel.phone ?? '';
+        _cityTEController.text = userModel.city ?? '';
+      });
     }
   }
 
-  void _onPressedUpdate(BuildContext context) {
-     Get.find<AuthController>().updateProfile(
-      firstName: _firstNameTEController.text.trim(),
-      lastName: _lastNameTEController.text.trim(),
-      email: _emailNameTEController.text.trim(),
-      phone: _phoneTEController.text.trim(),
-      city: _cityTEController.text.trim(),
-    );
-  }
-}
+  void _onPressedUpdate() async {
+    final updateController = Get.find<UpdateProfileController>();
+    final authController = Get.find<AuthController>();
 
-void _onPressedLoggedOut(BuildContext context) {
-  AuthController authController = Get.find<AuthController>();
-  authController.clearUserData();
-  Navigator.pushNamed(context, LoginScreen.name);
+    bool success = await updateController.updateProfile(
+      _firstNameTEController.text.trim(),
+      _lastNameTEController.text.trim(),
+      _phoneTEController.text.trim(),
+      _cityTEController.text.trim(),
+    );
+
+    if (success) {
+      if (mounted) {
+        Get.snackbar(
+          'Success',
+          'Profile has been updated',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      }
+
+      await authController.getUserData();
+      _loadProfileData();
+    }else{
+      showSnackBarMessage(context, updateController.errorMessage!,false);
+    }
+  }
+
+
+
+
+  void _onPressedLoggedOut(BuildContext context) {
+    AuthController authController = Get.find<AuthController>();
+    authController.clearUserData();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (p) => false);
+  }
 }

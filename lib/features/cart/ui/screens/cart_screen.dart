@@ -1,6 +1,8 @@
 import 'package:ecomers_app/app/app_theme_data.dart';
+import 'package:ecomers_app/features/cart/controller/cart_list_controller.dart';
 import 'package:ecomers_app/features/cart/ui/widgets/cart_item_widget.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
+import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +15,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  CartListController cartListController = Get.find<CartListController>();
+  @override
+  void initState() {
+    super.initState();
+    cartListController.getCartList();
+  }
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -28,8 +36,17 @@ class _CartScreenState extends State<CartScreen> {
           }, icon: const Icon(Icons.arrow_back_ios)),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: getCartList(),
+          child: GetBuilder<CartListController>(
+            builder: (controller) {
+              if(controller.inProgress) {
+              return const CenterCircularProgressIndicator();
+            } else{
+                return Column(
+
+                  children: getCartList(),
+                );
+              }
+            }
           ),
         ),
 
@@ -38,8 +55,8 @@ class _CartScreenState extends State<CartScreen> {
   }
   List<Widget>getCartList(){
     List<Widget>cartList=[];
-    for(int i=0;i<6;i++){
-      cartList.add(CartItemWidget());
+    for(int i=0;i<cartListController.cartList.length;i++){
+      cartList.add(CartItemWidget(cartModel: cartListController.cartList[i],));
     }
     return cartList;
   }

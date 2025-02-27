@@ -28,7 +28,7 @@ class _HomeCaroselSliderState extends State<HomeCaroselSlider> {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            autoPlay: true,
+            autoPlay: false,
             autoPlayAnimationDuration: const Duration(seconds: 1),
             height: 180,
             viewportFraction: 0.95,

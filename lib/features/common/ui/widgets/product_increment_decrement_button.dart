@@ -1,8 +1,10 @@
 import 'package:ecomers_app/app/app_color.dart';
+import 'package:ecomers_app/features/cart/model/cart_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductIncrementDecrementButton extends StatefulWidget {
-  const ProductIncrementDecrementButton({super.key});
+  final CartModel cartModel;
+  const ProductIncrementDecrementButton({super.key, required this.cartModel});
 
   @override
   State<ProductIncrementDecrementButton> createState() =>
@@ -13,7 +15,6 @@ class _ProductIncrementDecrementButtonState
     extends State<ProductIncrementDecrementButton> {
   bool isRemoveButtonDisabled = true;
   bool isAddButtonDisabled = false;
-  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _ProductIncrementDecrementButtonState
           isRemoveButtonDisabled,
         ),
         const SizedBox(width: 8),
-        Text('$quantity', style: const TextStyle(fontSize: 18)),
+        Text('${widget.cartModel.product!.quantity ?? 1}', style: const TextStyle(fontSize: 18)),
         const SizedBox(width: 8),
         incrementDecrementButton(
           Icons.add,
@@ -55,22 +56,27 @@ class _ProductIncrementDecrementButtonState
 
 
   void onTapRemoveButton() {
-    if (quantity > 1) {
+    final product = widget.cartModel.product;
+
+    if (product?.quantity != null && product!.quantity! > 1) {
       setState(() {
-        quantity--;
+        product.quantity = product.quantity! - 1;
         isAddButtonDisabled = false;
-        if (quantity == 1) isRemoveButtonDisabled = true;
+        isRemoveButtonDisabled = product.quantity == 1;
       });
     }
   }
 
   void onTapAddButton() {
-    if (quantity < 20) {
+    final product = widget.cartModel.product;
+
+    if (product?.quantity != null && product!.quantity! < 20) {
       setState(() {
-        quantity++;
+        product.quantity = product.quantity! + 1;
         isRemoveButtonDisabled = false;
-        if (quantity == 20) isAddButtonDisabled = true;
+        isAddButtonDisabled = product.quantity == 20;
       });
     }
   }
+
 }
