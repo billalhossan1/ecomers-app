@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/app/assets_path.dart';
-import 'package:ecomers_app/app_constant.dart';
+import 'package:ecomers_app/app/app_constant.dart';
 import 'package:ecomers_app/features/auth/controller/otp_verification_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';

@@ -26,7 +26,9 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProductDetailsScreen.name, arguments: 1);
+        Navigator.pushNamed(context, ProductDetailsScreen.name, arguments: {'productId': widget.wishModel.product!.sId});
+
+
       },
       child: SizedBox(
         width: 150,

@@ -8,10 +8,13 @@ class Urls{
   static String readCategoryUrl = '$_basicUrl/categories';
   static String profileUrl = '$_basicUrl/auth/profile';
   static String cartListUrl = '$_basicUrl/cart';
+  static String addToCart = '$_basicUrl/cart';
   static String wishListUrl = '$_basicUrl/wishlist';
+  static String addToWishUrl = '$_basicUrl/wishlist';
   static String cartDeleteUrl(String cartItemId) => '$_basicUrl/cart/$cartItemId';
   static String wishDeleteUrl(String wishItemId) => '$_basicUrl/wishlist/$wishItemId';
   static String productListUrl = '$_basicUrl/products';
+  static String productDetailsUrl(String productId) => '$_basicUrl/products/id/$productId';
 
 
 }

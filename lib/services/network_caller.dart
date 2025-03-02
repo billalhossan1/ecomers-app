@@ -103,12 +103,15 @@ class NetworkCaller {
 
 
   Future<NetworkResponse> postRequest(String url,
-      {Map<String, dynamic>? body}) async {
+      {Map<String, dynamic>? body,String? accessToken}) async {
     try {
       Uri uri = Uri.parse(url);
       Map<String, String> headers = {
         'content-type': 'application/json',
       };
+      if (accessToken != null) {
+        headers['token'] = accessToken;
+      }
       _logRequest(url, headers, body);
       http.Response response =
       await post(uri, headers: headers, body: jsonEncode(body));

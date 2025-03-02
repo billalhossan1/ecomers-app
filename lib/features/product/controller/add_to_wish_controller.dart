@@ -1,38 +1,33 @@
 import 'package:ecomers_app/app/urls.dart';
-import 'package:ecomers_app/features/product/model/product_list_model.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
-import 'package:ecomers_app/features/product/model/product_model.dart';
 import 'package:ecomers_app/services/network_caller.dart';
 
 import 'package:get/get.dart';
 
-class ProductDetailsController extends GetxController {
+class AddToWishController extends GetxController {
   bool _inProgress = false;
   bool get inProgress => _inProgress;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
-  ProductDetailsModel? _productDetailsModel;
-  ProductDetailsModel? get productDetailsModel => _productDetailsModel;
 
 
 
-  Future<bool> getProductDetails(String productId) async {
-    _inProgress = true;
+  Future<bool> addToWish(String productId) async {
     bool isSuccess = false;
+    _inProgress = true;
     update();
     String? token=Get.find<AuthController>().accessToken;
-    _productDetailsModel=null;
-    NetworkResponse response = await Get.find<NetworkCaller>().getRequest(
-        Urls.productDetailsUrl(productId),
+    Map<String,dynamic>body={
+      "product":productId
+    };
+    NetworkResponse response = await Get.find<NetworkCaller>().postRequest(
+        Urls.addToWishUrl,
+        body: body,
         accessToken: token
     );
 
     if (response.isSuccess) {
-
       isSuccess = true;
-      _productDetailsModel= ProductDetailsModel.fromJson(
-        response.responseData,
-      );
 
     } else {
       _errorMessage = response.errorMessage;

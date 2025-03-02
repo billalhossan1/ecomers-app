@@ -13,9 +13,14 @@ class ProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, ProductDetailsScreen.name,arguments: 1);
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          ProductDetailsScreen.name,
+          arguments: {'productId': productModel.sId},
+        );
       },
+
       child: SizedBox(
         width: 140,
         child: Card(
