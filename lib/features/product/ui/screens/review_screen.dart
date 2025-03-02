@@ -1,13 +1,26 @@
 import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/app_theme_data.dart';
+import 'package:ecomers_app/features/product/controller/review_list_contoller.dart';
 import 'package:ecomers_app/features/product/ui/screens/create_review_screen.dart';
 import 'package:ecomers_app/features/product/ui/widgets/review_widget_design.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ReviewScreen extends StatelessWidget {
-  const ReviewScreen({super.key});
+class ReviewScreen extends StatefulWidget {
+  const ReviewScreen({super.key, required this.productId});
   static String name = '/review-screen';
+  final String productId;
+  @override
+  State<ReviewScreen> createState() => _ReviewScreenState();
+}
 
+class _ReviewScreenState extends State<ReviewScreen> {
+  ReviewListContoller reviewListController = Get.find<ReviewListContoller>();
+  @override
+  void initState() {
+    reviewListController.getReviewList(widget.productId);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +46,13 @@ class ReviewScreen extends StatelessWidget {
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20))),
-              child: const Padding(
-                padding: EdgeInsets.all(30.0),
-                child: Text('Reviews (1000)'),
+              child: GetBuilder<ReviewListContoller>(
+                builder: (controller) {
+                  return  Padding(
+                    padding: EdgeInsets.all(30.0),
+                    child: Text('${controller.reviewList.length}'),
+                  );
+                }
               ),
             )
           ],

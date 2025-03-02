@@ -15,6 +15,7 @@ class Urls{
   static String wishDeleteUrl(String wishItemId) => '$_basicUrl/wishlist/$wishItemId';
   static String productListUrl = '$_basicUrl/products';
   static String productDetailsUrl(String productId) => '$_basicUrl/products/id/$productId';
+  static String reviewListUrl(String productId) => '$_basicUrl/reviews?product=$productId';
 
 
 }

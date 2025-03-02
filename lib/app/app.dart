@@ -61,7 +61,9 @@ class CraftyBay extends StatelessWidget {
           widget = ProductDetailsScreen(productId: productId);
         }else if(settings.name == ReviewScreen.name)
           {
-            widget = const ReviewScreen();
+            final arguments = settings.arguments as Map<String, dynamic>;
+            String productId = arguments['productId'] as String;
+            widget = ReviewScreen(productId: productId);
           }else if(settings.name == CreateReviewScreen.name)
           {
             widget = const CreateReviewScreen();

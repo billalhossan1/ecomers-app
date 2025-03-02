@@ -209,7 +209,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void onPressedReview() {
-    Navigator.pushNamed(context, ReviewScreen.name);
+    Navigator.pushNamed(context, ReviewScreen.name, arguments: {'productId': widget.productId});
   }
 }
 
