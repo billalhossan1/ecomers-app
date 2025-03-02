@@ -1,22 +1,21 @@
 import 'package:ecomers_app/app/urls.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
-import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/services/network_caller.dart';
 import 'package:get/get.dart';
 
-class DeleteCartController extends GetxController{
+class DeleteWishController extends GetxController{
   bool _inProgress = false;
   bool get inProgress => _inProgress;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
 
-  Future<bool>deleteCart(String cartId)async{
+  Future<bool>deleteWish(String wishItemId)async{
     final String? token=Get.find<AuthController>().accessToken;
     bool isSuccess=false;
     _inProgress=true;
     update();
-    NetworkResponse response = await Get.find<NetworkCaller>().delRequest(Urls.cartDeleteUrl(cartId),accessToken: token);
+    NetworkResponse response = await Get.find<NetworkCaller>().delRequest(Urls.wishDeleteUrl(wishItemId),accessToken: token);
     if(response.isSuccess){
       isSuccess = true;
     }else{

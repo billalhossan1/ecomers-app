@@ -1,3 +1,4 @@
+import 'package:ecomers_app/features/cart/controller/cart_list_controller.dart';
 import 'package:ecomers_app/features/cart/ui/screens/cart_screen.dart';
 import 'package:ecomers_app/features/category/contoller/category_list_pagination_controller.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
@@ -23,6 +24,7 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
     Get.find<CategoryListPaginationController>().getCategoryList();
     //Get.find<GetProfileDataController>().getProfileData();
     Get.find<SliderListController>().getSliders();
+
     super.initState();
   }
 final List<Widget> screens=[

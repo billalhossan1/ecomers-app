@@ -1,4 +1,5 @@
 import 'package:ecomers_app/app/app_theme_data.dart';
+import 'package:ecomers_app/app/screen_size.dart';
 import 'package:ecomers_app/features/cart/controller/cart_list_controller.dart';
 import 'package:ecomers_app/features/cart/ui/widgets/cart_item_widget.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
@@ -35,19 +36,37 @@ class _CartScreenState extends State<CartScreen> {
             Get.find<MainBottomNavController>().backToHome();
           }, icon: const Icon(Icons.arrow_back_ios)),
         ),
-        body: SingleChildScrollView(
-          child: GetBuilder<CartListController>(
-            builder: (controller) {
-              if(controller.inProgress) {
+        body: GetBuilder<CartListController>(
+          builder: (controller) {
+            if (controller.inProgress) {
               return const CenterCircularProgressIndicator();
-            } else{
-                return Column(
+            } else if (controller.cartList.isEmpty) {
+              return const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Your cart is empty",
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
 
+                  ],
+                ),
+              );
+            } else {
+              return SingleChildScrollView(
+                child: Column(
                   children: getCartList(),
-                );
-              }
+                ),
+              );
             }
-          ),
+          },
         ),
 
       ),

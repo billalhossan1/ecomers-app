@@ -1,9 +1,11 @@
 import 'package:ecomers_app/app/app_color.dart';
-import 'package:ecomers_app/features/cart/model/cart_model.dart';
+import 'package:ecomers_app/features/common/model/product_list_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ecomers_app/features/cart/controller/cart_list_controller.dart';
 
 class ProductIncrementDecrementButton extends StatefulWidget {
-  final CartModel cartModel;
+  final ProductModel cartModel;
   const ProductIncrementDecrementButton({super.key, required this.cartModel});
 
   @override
@@ -13,27 +15,38 @@ class ProductIncrementDecrementButton extends StatefulWidget {
 
 class _ProductIncrementDecrementButtonState
     extends State<ProductIncrementDecrementButton> {
-  bool isRemoveButtonDisabled = true;
-  bool isAddButtonDisabled = false;
+  late bool isRemoveButtonDisabled;
+  late bool isAddButtonDisabled;
+
+  @override
+  void initState() {
+    super.initState();
+    isRemoveButtonDisabled = widget.cartModel.quantity == 1;
+    isAddButtonDisabled = widget.cartModel.quantity == 19;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        incrementDecrementButton(
-          Icons.remove,
-          isRemoveButtonDisabled ? null : onTapRemoveButton,
-          isRemoveButtonDisabled,
-        ),
-        const SizedBox(width: 8),
-        Text('${widget.cartModel.product!.quantity ?? 1}', style: const TextStyle(fontSize: 18)),
-        const SizedBox(width: 8),
-        incrementDecrementButton(
-          Icons.add,
-          isAddButtonDisabled ? null : onTapAddButton,
-          isAddButtonDisabled,
-        ),
-      ],
+    return GetBuilder<CartListController>(
+      builder: (controller) {
+        return Row(
+          children: [
+            incrementDecrementButton(
+              Icons.remove,
+              isRemoveButtonDisabled ? null : onTapRemoveButton,
+              isRemoveButtonDisabled,
+            ),
+            const SizedBox(width: 8),
+            Text('${widget.cartModel.quantity}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(width: 8),
+            incrementDecrementButton(
+              Icons.add,
+              isAddButtonDisabled ? null : onTapAddButton,
+              isAddButtonDisabled,
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -54,13 +67,14 @@ class _ProductIncrementDecrementButtonState
     );
   }
 
-
   void onTapRemoveButton() {
-    final product = widget.cartModel.product;
+    final product = widget.cartModel;
 
-    if (product?.quantity != null && product!.quantity! > 1) {
+    if (product.quantity! > 1) {
+      Get.find<CartListController>().updateCartQuantity(product.sId!, product.quantity! - 1);
+
       setState(() {
-        product.quantity = product.quantity! - 1;
+        product.quantity = product.quantity! ;
         isAddButtonDisabled = false;
         isRemoveButtonDisabled = product.quantity == 1;
       });
@@ -68,15 +82,16 @@ class _ProductIncrementDecrementButtonState
   }
 
   void onTapAddButton() {
-    final product = widget.cartModel.product;
+    final product = widget.cartModel;
 
-    if (product?.quantity != null && product!.quantity! < 20) {
+    if (product.quantity! < 20) {
+      Get.find<CartListController>().updateCartQuantity(product.sId!, product.quantity! +1);
+
       setState(() {
-        product.quantity = product.quantity! + 1;
+        product.quantity = product.quantity!;
         isRemoveButtonDisabled = false;
         isAddButtonDisabled = product.quantity == 20;
       });
     }
   }
-
 }
