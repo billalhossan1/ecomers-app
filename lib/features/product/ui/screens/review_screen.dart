@@ -1,5 +1,6 @@
 import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/app_theme_data.dart';
+import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/product/controller/review_list_contoller.dart';
 import 'package:ecomers_app/features/product/ui/screens/create_review_screen.dart';
 import 'package:ecomers_app/features/product/ui/widgets/review_widget_design.dart';
@@ -33,8 +34,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: getReviewList(),
+                child: GetBuilder<ReviewListContoller>(
+                  builder: (controller) {
+                    if(controller.inProgress){
+                      return const CenterCircularProgressIndicator();
+                    }else{return Column(
+                      children: getReviewList(),
+                    );}
+
+                  }
                 ),
               ),
             ),
@@ -49,7 +57,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
               child: GetBuilder<ReviewListContoller>(
                 builder: (controller) {
                   return  Padding(
-                    padding: EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(30.0),
                     child: Text('${controller.reviewList.length}'),
                   );
                 }
@@ -74,9 +82,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
 }
 
 List<Widget> getReviewList() {
+  ReviewListContoller reviewListController = Get.find<ReviewListContoller>();
   List<Widget> reviewList = [];
-  for (int i = 0; i < 8; i++) {
-    reviewList.add(const ReviewWidgetDesign());
+  for (int i = 0; i <  reviewListController.reviewList.length; i++) {
+    reviewList.add( ReviewWidgetDesign(reviewModel: reviewListController.reviewList[i],));
   }
   return reviewList;
 }

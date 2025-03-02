@@ -15,7 +15,7 @@ class ReviewListModel {
 }
 
 class Data {
-  List<Review>? results;
+  List<ReviewModel>? results;
   int? total;
   int? firstPage;
   int? previous;
@@ -32,9 +32,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-      results = <Review>[];
+      results = <ReviewModel>[];
       json['results'].forEach((v) {
-        results!.add(Review.fromJson(v));
+        results!.add(ReviewModel.fromJson(v));
       });
     }
     total = json['total'];
@@ -46,7 +46,7 @@ class Data {
 
 }
 
-class Review {
+class ReviewModel {
   String? sId;
   Product? product;
   User? user;
@@ -56,7 +56,7 @@ class Review {
   String? updatedAt;
   double? iV;
 
-  Review(
+  ReviewModel(
       {this.sId,
         this.product,
         this.user,
@@ -66,7 +66,7 @@ class Review {
         this.updatedAt,
         this.iV});
 
-  Review.fromJson(Map<String, dynamic> json) {
+  ReviewModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     product = json['product'] != null ? Product.fromJson(json['product']) : null;
     user = json['user'] != null ? User.fromJson(json['user']) : null;

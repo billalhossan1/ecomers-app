@@ -13,8 +13,8 @@ class ReviewListContoller extends GetxController {
   bool get inProgress => _inProgress;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
-  List<Review> _reviewList = [];
-  List<Review> get reviewList => _reviewList;
+  List<ReviewModel> _reviewList = [];
+  List<ReviewModel> get reviewList => _reviewList;
 
 
 
