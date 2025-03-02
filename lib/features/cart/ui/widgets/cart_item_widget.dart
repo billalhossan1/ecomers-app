@@ -1,14 +1,15 @@
 import 'package:ecomers_app/app/screen_size.dart';
 import 'package:ecomers_app/features/cart/controller/cart_list_controller.dart';
 import 'package:ecomers_app/features/cart/controller/delete_cart_controller.dart';
-import 'package:ecomers_app/features/common/model/product_list_model.dart';
+import 'package:ecomers_app/features/cart/model/cart_list_model.dart';
+import 'package:ecomers_app/features/product/model/product_list_model.dart';
 import 'package:ecomers_app/features/common/ui/widgets/product_increment_decrement_button.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CartItemWidget extends StatefulWidget {
-  final ProductModel cartModel;
+  final CartModel cartModel;
 
   const CartItemWidget({super.key, required this.cartModel});
 
@@ -102,7 +103,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${widget.cartModel.product!.currentPrice}',
+                                '\$${widget.cartModel.product!.currentPrice}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

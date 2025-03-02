@@ -5,6 +5,7 @@ import 'package:ecomers_app/features/common/controller/main_bottom_nav_controlle
 import 'package:ecomers_app/features/category/ui/screens/category_list_screen.dart';
 import 'package:ecomers_app/features/home/controller/get_profile_controller.dart';
 import 'package:ecomers_app/features/home/controller/slider_list_controller.dart';
+import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
 import 'package:ecomers_app/features/wish-list/ui/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

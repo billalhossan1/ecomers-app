@@ -1,4 +1,4 @@
-class Product {
+class Wish {
   String? sId;
   String? title;
   String? brand;
@@ -17,7 +17,7 @@ class Product {
   String? updatedAt;
   int? iV;
 
-  Product(
+  Wish(
       {this.sId,
         this.title,
         this.brand,
@@ -36,7 +36,7 @@ class Product {
         this.updatedAt,
         this.iV});
 
-  Product.fromJson(Map<String, dynamic> json) {
+  Wish.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     title = json['title'];
     brand = json['brand'];

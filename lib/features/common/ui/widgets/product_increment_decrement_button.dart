@@ -1,11 +1,11 @@
 import 'package:ecomers_app/app/app_color.dart';
-import 'package:ecomers_app/features/common/model/product_list_model.dart';
+import 'package:ecomers_app/features/cart/model/cart_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ecomers_app/features/cart/controller/cart_list_controller.dart';
 
 class ProductIncrementDecrementButton extends StatefulWidget {
-  final ProductModel cartModel;
+  final CartModel cartModel;
   const ProductIncrementDecrementButton({super.key, required this.cartModel});
 
   @override

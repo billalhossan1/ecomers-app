@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
@@ -21,47 +19,54 @@ class NetworkResponse {
 
 class NetworkCaller {
   final Logger _logger = Logger();
-  Future<NetworkResponse> getRequest(String url, {Map<String, dynamic>? queryParam,String? accessToken}) async {
+  Future<NetworkResponse> getRequest(String url, {Map<String, dynamic>? queryParam, String? accessToken}) async {
     try {
-
       Map<String, String> headers = {
         'content-type': 'application/json',
       };
       if (accessToken != null) {
         headers['token'] = accessToken;
       }
-      _logRequest(url);
 
-      if(queryParam!=null){
-        url+='?';
-        for(String param in queryParam.keys){
-          String paramName=param;
-          int? paramValue=queryParam[param];
-          url+= paramName;
-          url+='=';
-          url+= paramValue.toString();
-          url+= '&';
+      if (queryParam != null) {
+        url += '?';
+        for (String param in queryParam.keys) {
+          String paramName = param;
+          String paramValue = queryParam[param].toString();
+          url += "$paramName=$paramValue&";
         }
+        url = url.substring(0, url.length - 1);
+        _logRequest(url);
       }
+
       Uri uri = Uri.parse(url);
       http.Response response = await get(uri, headers: headers);
+      print("API Response: ${response.body}");
       _logResponse(url, response.statusCode, response.headers, response.body);
+
       if (response.statusCode == 200) {
         final decodedMessage = jsonDecode(response.body);
         return NetworkResponse(
-            isSuccess: true,
-            statusCode: response.statusCode,
-            responseData: decodedMessage);
+          isSuccess: true,
+          statusCode: response.statusCode,
+          responseData: decodedMessage,
+        );
       } else {
         return NetworkResponse(
-            isSuccess: false, statusCode: response.statusCode);
+          isSuccess: false,
+          statusCode: response.statusCode,
+        );
       }
     } catch (e) {
       _logResponse(url, -1, null, '', e.toString());
       return NetworkResponse(
-          isSuccess: false, statusCode: -1, errorMessage: e.toString());
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
+
   Future<NetworkResponse> delRequest(String url, {String? accessToken}) async {
     try {
       Map<String, String> headers = {

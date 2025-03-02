@@ -1,21 +1,22 @@
 import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/app/urls.dart';
-import 'package:ecomers_app/features/common/model/product_list_model.dart';
+import 'package:ecomers_app/features/product/model/product_list_model.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_details_screen.dart';
 import 'package:ecomers_app/features/wish-list/controller/delete_wish_controller.dart';
 import 'package:ecomers_app/features/wish-list/controller/wish_list_controller.dart';
+import 'package:ecomers_app/features/wish-list/model/wish_list_model.dart';
 import 'package:ecomers_app/services/network_caller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WishListProductItemWidget extends StatefulWidget {
   const WishListProductItemWidget({
-    super.key, required this.wishListModel,
+    super.key, required this.wishModel,
   });
-  final ProductModel wishListModel;
+  final WishModel wishModel;
   @override
   State<WishListProductItemWidget> createState() => _WishListProductItemWidgetState();
 }
@@ -37,10 +38,10 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: (widget.wishListModel.product!.photos != null &&
-                      widget.wishListModel.product!.photos!.isNotEmpty)
+                  child: (widget.wishModel.product!.photos != null &&
+                      widget.wishModel.product!.photos!.isNotEmpty)
                       ? Image.network(
-                    widget.wishListModel.product!.photos![0],
+                    widget.wishModel.product!.photos![0],
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
@@ -64,7 +65,7 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        widget.wishListModel.product!.title!,
+                        widget.wishModel.product!.title!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -77,7 +78,7 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            '\$${widget.wishListModel.product!.currentPrice}',
+                            '\$${widget.wishModel.product!.currentPrice}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: AppColor.themeColor),
@@ -93,7 +94,7 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
                                 size: 18,
                               ),
                               Text(
-                                '${widget.wishListModel.iV}',
+                                '${widget.wishModel.iV}',
                                 style: const TextStyle(fontWeight: FontWeight.w400),
                               ),
                             ],
@@ -129,7 +130,7 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
     );
   }
   void onTapDelete(BuildContext context)async{
-    final bool result = await Get.find<DeleteWishController>().deleteWish(widget.wishListModel.sId!);
+    final bool result = await Get.find<DeleteWishController>().deleteWish(widget.wishModel.sId!);
     if(result){
       Get.find<WishListController>().getWishList();
       showSnackBarMessage(context, 'Cart Deleted Successfully');

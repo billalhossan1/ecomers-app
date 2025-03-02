@@ -76,7 +76,7 @@ class _WishListScreenState extends State<WishListScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: WishListProductItemWidget(
-                        wishListModel: controller.wishList[index],
+                        wishModel: controller.wishList[index],
                       ),
                     ),
                   );
