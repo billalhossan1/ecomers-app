@@ -126,7 +126,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (isSuccess) {
         if (mounted) {
           showSnackBarMessage(context, _emailVerificationController.message!);
-         Navigator.pushNamed(context, MainBottomNavBar.name);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
+                (p) => false,
+          );
         }
       } else {
         if (mounted) {

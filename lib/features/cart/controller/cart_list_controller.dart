@@ -28,6 +28,7 @@ class CartListController extends GetxController{
       _cartList.addAll(cartListModel.data!.productList??[]);
 
     }else{
+      _cartList.clear();
       _errorMessage = response.errorMessage;
     }
     _inProgress= false;

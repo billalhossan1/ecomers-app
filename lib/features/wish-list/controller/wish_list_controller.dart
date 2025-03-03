@@ -30,6 +30,7 @@ class WishListController extends GetxController{
       WishListModel wishListModel = WishListModel.fromJson(response.responseData);
       _wishList.addAll(wishListModel.data!.productList??[]);
     }else{
+      _wishList.clear();
       _errorMessage = response.errorMessage;
     }
     _inProgress= false;

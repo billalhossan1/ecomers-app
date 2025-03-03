@@ -1,4 +1,6 @@
 import 'package:ecomers_app/app/app_theme_data.dart';
+import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
+import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/features/product/controller/create_review_controller.dart';
@@ -80,20 +82,24 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
   }
 
   void _onTapSubmit() async {
-    if (_formKey.currentState!.validate()) {
-      CreateReviewController createReviewController =
-      Get.find<CreateReviewController>();
-      final bool result = await createReviewController.addReview(
-        widget.productId,
-        _writeReviewTEController.text.trim(),
-        _ratingReviewTEController.text.trim(),
-      );
-      if (result) {
-        showSnackBarMessage(context, 'Review added Successfully');
-        Navigator.pop(context, true);
-      } else {
-        showSnackBarMessage(context, createReviewController.errorMessage!);
+    if(AuthController().isLoggedIn()){
+      if (_formKey.currentState!.validate()) {
+        CreateReviewController createReviewController =
+        Get.find<CreateReviewController>();
+        final bool result = await createReviewController.addReview(
+          widget.productId,
+          _writeReviewTEController.text.trim(),
+          _ratingReviewTEController.text.trim(),
+        );
+        if (result) {
+          showSnackBarMessage(context, 'Review added Successfully');
+          Navigator.pop(context, true);
+        } else {
+          showSnackBarMessage(context, createReviewController.errorMessage!);
+        }
       }
+    }else{
+      Navigator.pushNamed(context, LoginScreen.name);
     }
   }
 

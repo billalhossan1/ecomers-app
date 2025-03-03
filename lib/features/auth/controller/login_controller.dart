@@ -30,7 +30,7 @@ class LogInController extends GetxController {
       message = "Login successful!";
       isSuccess = true;
     } else {
-      errorMessage = "Login failed. Please try again.";
+      errorMessage = response.errorMessage;
       isSuccess = false;
     }
 

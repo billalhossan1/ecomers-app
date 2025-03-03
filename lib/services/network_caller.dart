@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ecomers_app/features/common/model/error_response_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
@@ -52,9 +53,12 @@ class NetworkCaller {
           responseData: decodedMessage,
         );
       } else {
+        final decodedMessage = jsonDecode(response.body);
+        ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(decodedMessage);
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
+          errorMessage: errorResponseModel.msg
         );
       }
     } catch (e) {
@@ -91,8 +95,13 @@ class NetworkCaller {
             statusCode: response.statusCode,
             responseData: decodedMessage);
       } else {
+        final decodedMessage = jsonDecode(response.body);
+        ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(decodedMessage);
         return NetworkResponse(
-            isSuccess: false, statusCode: response.statusCode);
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: errorResponseModel.msg
+        );
       }
     } catch (e) {
       _logResponse(url, -1, {}, '', e.toString());
@@ -123,8 +132,13 @@ class NetworkCaller {
             statusCode: response.statusCode,
             responseData: decodedMessage);
       } else {
+        final decodedMessage = jsonDecode(response.body);
+        ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(decodedMessage);
         return NetworkResponse(
-            isSuccess: false, statusCode: response.statusCode);
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: errorResponseModel.msg
+        );
       }
     } catch (e) {
       _logResponse(url, -1, null, '', e.toString());
@@ -170,8 +184,13 @@ class NetworkCaller {
             statusCode: response.statusCode,
             responseData: decodedMessage);
       } else {
+        final decodedMessage = jsonDecode(response.body);
+        ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(decodedMessage);
         return NetworkResponse(
-            isSuccess: false, statusCode: response.statusCode);
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: errorResponseModel.msg
+        );
       }
     } catch (e) {
       _logResponse(url, -1, null, '', e.toString());

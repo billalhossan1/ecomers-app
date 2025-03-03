@@ -1,6 +1,4 @@
 import 'package:ecomers_app/app/assets_path.dart';
-import 'package:ecomers_app/features/auth/data/model/sign_in_model.dart';
-import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,15 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _moveToLoginScreen() async {
     await Future.delayed(const Duration(seconds: 3));
 
-    if (authController.isLoggedIn()) {
       if (mounted) {
         Navigator.pushNamed(context, MainBottomNavBar.name);
       }
-    } else {
-      if (mounted) {
-        Navigator.pushNamed(context, LoginScreen.name);
-      }
-    }
   }
 
   @override

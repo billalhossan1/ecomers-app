@@ -29,7 +29,7 @@ class OtpVerifiactionController extends GetxController{
       );
       isSuccess=true;
     }else{
-      errorMessage="Something went wrong";
+      errorMessage=response.errorMessage;
     }
 
     update();

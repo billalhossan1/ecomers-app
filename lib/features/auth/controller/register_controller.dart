@@ -38,7 +38,7 @@ class RegisterController extends GetxController {
       _message= "Otp sent Successfully";
 
     }else{
-      _errorMessage="something went wrong";
+      _errorMessage=response.errorMessage;
     }
 
     return isSuccess;

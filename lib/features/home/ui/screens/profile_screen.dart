@@ -5,6 +5,7 @@ import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/features/home/controller/update_profile_controller.dart';
+import 'package:ecomers_app/features/home/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,6 +34,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLoggedIn=Get.find<AuthController>().isLoggedIn();
+    if (!isLoggedIn) {
+      return Scaffold(
+        appBar: AppBar(title: const Text("Profile")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("You are not logged in", style: TextStyle(fontSize: 18)),
+              const SizedBox(height: 20),
+              AppThemeData.nextButton(onPressed: (){
+                Navigator.pushNamed(context, LoginScreen.name);
+              },name: 'LogIn Now')
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -226,7 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     authController.clearUserData();
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
             (p) => false);
   }
 }

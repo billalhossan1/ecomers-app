@@ -1,4 +1,6 @@
 import 'package:ecomers_app/app/app_color.dart';
+import 'package:ecomers_app/features/auth/ui/screen/login_screen.dart';
+import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/features/product/controller/add_to_cart_controller.dart';
@@ -206,6 +208,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
   void onTapWish()async{
+    if(AuthController().isLoggedIn()){
     AddToWishController addToWishController = Get.find<AddToWishController>();
     final bool result = await addToWishController.addToWish(widget.productId);
     if(result){
@@ -213,15 +216,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }else{
       showSnackBarMessage(context, addToWishController.errorMessage!);
     }
+    }else{
+      Navigator.pushNamed(context, LoginScreen.name);
+    }
   }
   void onTapAddToCart()async{
-    AddToCartController addToCartController = Get.find<AddToCartController>();
-    final bool result = await addToCartController.addToCart(widget.productId);
-    if(result){
-      showSnackBarMessage(context, 'CartAdded Successfully');
+    if(AuthController().isLoggedIn()){
+      AddToCartController addToCartController = Get.find<AddToCartController>();
+      final bool result = await addToCartController.addToCart(widget.productId);
+      if(result){
+        showSnackBarMessage(context, 'CartAdded Successfully');
+      }else{
+        showSnackBarMessage(context, addToCartController.errorMessage!);
+      }
     }else{
-      showSnackBarMessage(context, addToCartController.errorMessage!);
+      Navigator.pushNamed(context, LoginScreen.name);
     }
+
   }
 
   void onPressedReview() {
