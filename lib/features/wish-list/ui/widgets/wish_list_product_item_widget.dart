@@ -135,7 +135,7 @@ class _WishListProductItemWidgetState extends State<WishListProductItemWidget> {
     final bool result = await Get.find<DeleteWishController>().deleteWish(widget.wishModel.sId!);
     if(result){
       Get.find<WishListController>().getWishList();
-      showSnackBarMessage(context, 'Cart Deleted Successfully');
+      showSnackBarMessage(context, 'Wish Deleted Successfully');
 
     }else{
       showSnackBarMessage(context, Get.find<DeleteWishController>().errorMessage!);
