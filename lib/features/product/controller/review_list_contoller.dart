@@ -1,10 +1,7 @@
 import 'package:ecomers_app/app/urls.dart';
-import 'package:ecomers_app/features/product/model/product_list_model.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
-import 'package:ecomers_app/features/product/model/product_model.dart';
 import 'package:ecomers_app/features/product/model/review_list_model.dart';
 import 'package:ecomers_app/services/network_caller.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
 
@@ -13,7 +10,10 @@ class ReviewListContoller extends GetxController {
   bool get inProgress => _inProgress;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
-  List<ReviewModel> _reviewList = [];
+  int? _totalCount;
+  int? get totalCount => _totalCount;
+
+  final List<ReviewModel> _reviewList = [];
   List<ReviewModel> get reviewList => _reviewList;
 
 
@@ -35,6 +35,7 @@ class ReviewListContoller extends GetxController {
         response.responseData,
       );
       _reviewList.addAll(reviewListModel.data!.results??[]);
+      _totalCount = reviewListModel.data!.total;
 
     } else {
       _errorMessage = response.errorMessage;

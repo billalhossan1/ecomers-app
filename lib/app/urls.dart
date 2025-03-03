@@ -16,6 +16,7 @@ class Urls{
   static String productListUrl = '$_basicUrl/products';
   static String productDetailsUrl(String productId) => '$_basicUrl/products/id/$productId';
   static String reviewListUrl(String productId) => '$_basicUrl/reviews?product=$productId';
+  static String addReviewUrl = '$_basicUrl/review';
 
 
 }

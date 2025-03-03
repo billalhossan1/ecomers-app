@@ -13,7 +13,7 @@ class UpdateProfileController extends GetxController {
   // UserModel? userModel;
 
   Future<bool> updateProfile(String firstName, String lastName, String phone,
-      String city) async {
+      String city,String imageUrl) async {
     bool isSuccess = false;
     _inProgress=true;
     update();
@@ -21,7 +21,8 @@ class UpdateProfileController extends GetxController {
       "first_name": firstName,
       "last_name": lastName,
       "phone": phone,
-      "city": city
+      "city": city,
+      "avatar_url": imageUrl
     };
     final NetworkResponse response = await Get.find<NetworkCaller>()
         .patchRequest(Urls.profileUrl,accessToken: Get.find<AuthController>().accessToken.toString(),body: body);

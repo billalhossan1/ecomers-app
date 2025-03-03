@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/features/home/data/model/slider_list_model.dart';
+import 'package:ecomers_app/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeCaroselSlider extends StatefulWidget {
@@ -71,7 +72,7 @@ class _HomeCaroselSliderState extends State<HomeCaroselSlider> {
                         SizedBox(
                           width: 90,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: (){Navigator.pushNamed(context, ProductDetailsScreen.name,arguments: {'productId': banner.product});},
                             child: const Text('Buy now'),
                           ),
                         ),

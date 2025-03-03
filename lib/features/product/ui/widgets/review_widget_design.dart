@@ -1,5 +1,6 @@
 import 'package:ecomers_app/features/product/model/review_list_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReviewWidgetDesign extends StatelessWidget {
   const ReviewWidgetDesign({super.key, required this.reviewModel});
@@ -11,6 +12,16 @@ class ReviewWidgetDesign extends StatelessWidget {
     bool hasHalfStar = (reviewModel.rating ?? 0) - fullStars >= 0.5;
     int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
+    String formattedDate = 'N/A';
+    if (reviewModel.createdAt != null && reviewModel.createdAt!.isNotEmpty) {
+      try {
+        DateTime date = DateTime.parse(reviewModel.createdAt!);
+        formattedDate = DateFormat('dd MMM, yyyy').format(date);
+      } catch (e) {
+        formattedDate = 'Invalid date';
+      }
+    }
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -18,14 +29,30 @@ class ReviewWidgetDesign extends StatelessWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 14,
-                  child: Icon(Icons.person, size: 20),
+                  backgroundImage: reviewModel.user?.avatarUrl != null &&
+                      reviewModel.user!.avatarUrl!.isNotEmpty
+                      ? NetworkImage(reviewModel.user!.avatarUrl!)
+                      : null,
+                  child: reviewModel.user?.avatarUrl == null ||
+                      reviewModel.user!.avatarUrl!.isEmpty
+                      ? const Icon(Icons.person, size: 20)
+                      : null,
                 ),
                 const SizedBox(width: 8),
-                Text(
-                  '${reviewModel.user!.firstName!} ${reviewModel.user!.lastName!}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${reviewModel.user!.firstName!} ${reviewModel.user!.lastName!}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      formattedDate,
+                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -33,7 +60,9 @@ class ReviewWidgetDesign extends StatelessWidget {
             Text(
               reviewModel.comment ?? 'No comment available',
               textAlign: TextAlign.start,
-              style: const TextStyle(color: Colors.grey,),
+              style: const TextStyle(
+                color: Colors.grey,
+              ),
             ),
             const SizedBox(height: 8),
             // Rating Row
@@ -41,13 +70,13 @@ class ReviewWidgetDesign extends StatelessWidget {
               children: [
                 ...List.generate(
                     fullStars,
-                    (_) =>
-                        const Icon(Icons.star, color: Colors.amber, size: 18)),
+                        (_) =>
+                    const Icon(Icons.star, color: Colors.amber, size: 18)),
                 if (hasHalfStar)
                   const Icon(Icons.star_half, color: Colors.amber, size: 18),
                 ...List.generate(
                     emptyStars,
-                    (_) => const Icon(Icons.star_border,
+                        (_) => const Icon(Icons.star_border,
                         color: Colors.amber, size: 18)),
                 const SizedBox(width: 8),
                 Text('${reviewModel.rating}',

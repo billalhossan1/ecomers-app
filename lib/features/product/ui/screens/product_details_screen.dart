@@ -35,9 +35,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         title: const Text('Product Details'),
       ),
       body: GetBuilder<ProductDetailsController>(builder: (controller) {
+        if (controller.isError) {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error, color: Colors.red, size: 50),
+                SizedBox(height: 10),
+                Text(
+                   'Product not found. Please try again.',
+                  style: TextStyle(fontSize: 18, color: Colors.red),
+                ),
+              ],
+            ),
+          );
+        }
         if (controller.productDetailsModel == null || controller.productDetailsModel!.data == null) {
           return const CenterCircularProgressIndicator();
         }
+
         return Column(
           children: [
             ProductCaroselSlider(productDetailsModel: controller.productDetailsModel!,),

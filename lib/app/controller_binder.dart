@@ -11,6 +11,7 @@ import 'package:ecomers_app/features/home/controller/slider_list_controller.dart
 import 'package:ecomers_app/features/home/controller/update_profile_controller.dart';
 import 'package:ecomers_app/features/product/controller/add_to_cart_controller.dart';
 import 'package:ecomers_app/features/product/controller/add_to_wish_controller.dart';
+import 'package:ecomers_app/features/product/controller/create_review_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_details_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
 import 'package:ecomers_app/features/product/controller/review_list_contoller.dart';
@@ -41,6 +42,7 @@ class ControllerBinder extends Bindings
     Get.put(AddToCartController());
     Get.put(AddToWishController());
     Get.put(ReviewListContoller());
+    Get.put(CreateReviewController());
     // Get.put(GetProfileDataController());
     // Get.put(HomeCategoryListController());
   }

@@ -25,47 +25,54 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController searchBarController = TextEditingController();
-  final CategoryListPaginationController _categoryListPaginationController = Get.find<CategoryListPaginationController>();
-  final ProductListPaginationController _productListPaginationController = Get.find<ProductListPaginationController>();
+  final CategoryListPaginationController _categoryListPaginationController =
+  Get.find<CategoryListPaginationController>();
+  final ProductListPaginationController _productListPaginationController =
+  Get.find<ProductListPaginationController>();
 
-  List<Widget> getSpecialList() {
-    List<Widget> productList = [];
-    // for (int i = 0; i < 10; i++) {
-    //   productList.add(const Padding(
-    //     padding: EdgeInsets.all(8.0),
-    //     child: ProductItemWidget(
-    //       tittle: 'Speccial',
-    //       rating: 4.5,
-    //       price: 100,
-    //     ),
-    //   ));
-    // }
-    return productList;
-  }
+  String searchQuery = '';
+  List<Widget> filteredCategories = [];
+  List<Widget> filteredProducts = [];
 
-  Future<List<Widget>> getProductList() async{
-    List<Widget> productList = [];
-    for (int i = 0; i < 10&&_productListPaginationController.productList.length>i; i++) {
-      productList.add( Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ProductItemWidget(productModel: _productListPaginationController.productList[i],
-
-          )));
-    }
-    return productList;
-  }
-
-  Future<List<Widget>> getCategoryList()async{
+  Future<List<Widget>> getCategoryList() async {
     List<Widget> categoryList = [];
-
-    for (int i = 0; i < 11&&_categoryListPaginationController.categoryList.length>i; i++) {
+    for (int i = 0; i < 11 && _categoryListPaginationController.categoryList.length > i; i++) {
       categoryList.add(Padding(
         padding: const EdgeInsets.all(8.0),
-        child: CategoryItemWidget(categoryModel: _categoryListPaginationController.categoryList[i],)
+        child: CategoryItemWidget(categoryModel: _categoryListPaginationController.categoryList[i]),
       ));
     }
-    // print('Total categories: ${_categoryListPaginationController.categoryList.length}');
     return categoryList;
+  }
+
+  Future<List<Widget>> getProductList() async {
+    List<Widget> productList = [];
+    for (int i = 0; i < 10 && _productListPaginationController.productList.length > i; i++) {
+      productList.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ProductItemWidget(productModel: _productListPaginationController.productList[i]),
+      ));
+    }
+    return productList;
+  }
+  void filterSearchResults(String query) {
+    setState(() {
+      searchQuery = query;
+      filteredCategories = _categoryListPaginationController.categoryList
+          .where((category) => category.title!.toLowerCase().contains(query.toLowerCase()))
+          .map((category) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CategoryItemWidget(categoryModel: category),
+      ))
+          .toList();
+      filteredProducts = _productListPaginationController.productList
+          .where((product) => product.title!.toLowerCase().contains(query.toLowerCase()))
+          .map((product) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ProductItemWidget(productModel: product),
+      ))
+          .toList();
+    });
   }
 
   @override
@@ -74,84 +81,74 @@ class _HomeScreenState extends State<HomeScreen> {
     searchBarController.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: SvgPicture.asset(AssetsPath.logoNav),
-          actions: [
-            Row(
-              children: [
-                CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, ProfileScreen.name);
-                      },
-                      icon: const Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                    )),
-                const SizedBox(
-                  width: 12,
+      appBar: AppBar(
+        title: SvgPicture.asset(AssetsPath.logoNav),
+        actions: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, ProfileScreen.name);
+                  },
+                  icon: const Icon(Icons.person, color: Colors.white),
                 ),
-                CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.call),
-                      color: Colors.white),
+              ),
+              const SizedBox(width: 12),
+              CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.call),
+                  color: Colors.white,
                 ),
-                const SizedBox(
-                  width: 12,
+              ),
+              const SizedBox(width: 12),
+              CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.alarm_sharp),
+                  color: Colors.white,
                 ),
-                CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.alarm_sharp),
-                        color: Colors.white)),
-              ],
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ProductSearchBar(
-                  controller: searchBarController,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                GetBuilder<SliderListController>(
-                  builder: (controller) {
-                    return Visibility(
-                      visible: !controller.inProgress,
-                      replacement: const CenterCircularProgressIndicator(),
-                      child: HomeCaroselSlider(
-                        sliderList: controller.bannerList,
-                      ),
-                    );
-                  }
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-
+              ),
+            ],
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ProductSearchBar(
+                controller: searchBarController,
+                onChanged: filterSearchResults,
+              ),
+              const SizedBox(height: 16),
+              GetBuilder<SliderListController>(builder: (controller) {
+                return Visibility(
+                  visible: !controller.inProgress,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: HomeCaroselSlider(
+                    sliderList: controller.bannerList,
+                  ),
+                );
+              }),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppThemeData.primaryText('All Category'),
                   TextButton(
-                    onPressed: (){Get.find<MainBottomNavController>().showCategoryList();},
+                    onPressed: () {
+                      Get.find<MainBottomNavController>().showCategoryList();
+                    },
                     child: const Text(
                       'See All',
                       style: TextStyle(
@@ -161,9 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-
-              GetBuilder<CategoryListPaginationController>(
-              builder: (controller) {
+              GetBuilder<CategoryListPaginationController>(builder: (controller) {
                 return Visibility(
                   visible: !controller.initialInProgress,
                   replacement: const CenterCircularProgressIndicator(),
@@ -181,104 +176,43 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(children: snapshot.data!),
+                        child: Row(
+                          children: searchQuery.isEmpty
+                              ? snapshot.data!
+                              : filteredCategories.isEmpty
+                              ? [const Center(child: Text("No categories found"))]
+                              : filteredCategories,
+                        ),
                       );
                     },
                   ),
                 );
-              },
-            ),
-                GetBuilder<CategoryListPaginationController>(
-                  builder: (controller) {
-                    return Column(
-                      children: [
-                        for (int i = 0; i < controller.categoryList.length && i < 10; i++)
-                    CategoryTextWidget(
-                      onTapSeeAll: () {
-                        Navigator.pushNamed(
-                          context,
-                          ProductListScreen.name,
-                          arguments: {
-                            'categoryName': controller.categoryList[i].title,
-                            'categoryId': controller.categoryList[i].sId,
-                          },
-                        );
-                      },
-                      categoryModel: controller.categoryList[i],
-                    )
-
-
-                    // GetBuilder<ProductListPaginationController>(
-                        //   builder: (controller) {
-                        //     return Visibility(
-                        //       visible: !controller.initialInProgress,
-                        //       replacement: const CenterCircularProgressIndicator(),
-                        //       child: FutureBuilder<List<Widget>>(
-                        //         future: getProductList(),
-                        //         builder: (context, snapshot) {
-                        //           if (snapshot.connectionState == ConnectionState.waiting) {
-                        //             return const CenterCircularProgressIndicator();
-                        //           }
-                        //           if (snapshot.hasError) {
-                        //             return const Center(child: Text("Error loading categories"));
-                        //           }
-                        //           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        //             return const Center(child: Text("No categories available"));
-                        //           }
-                        //           return SingleChildScrollView(
-                        //             scrollDirection: Axis.horizontal,
-                        //             child: Row(children: snapshot.data!),
-                        //           );
-                        //         },
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
-                      ],
-                    );
-                  },
-                ),
-
-
-            // CategoryTextWidget(
-                //   onTapSeeAll: () {
-                //     Navigator.pushNamed(context, ProductListScreen.name,
-                //         arguments: 'Popular');
-                //   },
-                //   tittle: 'Popular',
-                // ),
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(children: getPopularList()),
-                // ),
-                // CategoryTextWidget(
-                //   onTapSeeAll: () {
-                //     Navigator.pushNamed(context, ProductListScreen.name,
-                //         arguments: 'Special');
-                //   },
-                //   tittle: 'Special',
-                // ),
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(children: getSpecialList()),
-                // ),
-                // CategoryTextWidget(
-                //   onTapSeeAll: () {
-                //     Navigator.pushNamed(context, ProductListScreen.name,
-                //         arguments: 'New');
-                //   },
-                //   tittle: 'New',
-                // ),
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(children: getNewList()),
-                // ),
-              ],
-            ),
+              }),
+              const SizedBox(height: 16),
+              GetBuilder<CategoryListPaginationController>(builder: (controller) {
+                return Column(
+                  children: [
+                    for (int i = 0; i < controller.categoryList.length && i < 10; i++)
+                      CategoryTextWidget(
+                        onTapSeeAll: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductListScreen.name,
+                            arguments: {
+                              'categoryName': controller.categoryList[i].title,
+                              'categoryId': controller.categoryList[i].sId,
+                            },
+                          );
+                        },
+                        categoryModel: controller.categoryList[i],
+                      ),
+                  ],
+                );
+              }),
+            ],
           ),
-        ));
-
+        ),
+      ),
+    );
   }
-
-
 }
