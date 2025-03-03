@@ -208,7 +208,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
   void onTapWish()async{
-    if(AuthController().isLoggedIn()){
+    if(Get.find<AuthController>().isLoggedIn()){
     AddToWishController addToWishController = Get.find<AddToWishController>();
     final bool result = await addToWishController.addToWish(widget.productId);
     if(result){
@@ -221,7 +221,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
   void onTapAddToCart()async{
-    if(AuthController().isLoggedIn()){
+    if(Get.find<AuthController>().isLoggedIn()){
       AddToCartController addToCartController = Get.find<AddToCartController>();
       final bool result = await addToCartController.addToCart(widget.productId);
       if(result){

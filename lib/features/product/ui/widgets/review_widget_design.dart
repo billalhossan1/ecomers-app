@@ -57,13 +57,21 @@ class ReviewWidgetDesign extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              reviewModel.comment ?? 'No comment available',
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                color: Colors.grey,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    reviewModel.comment ?? 'No comment available',
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                    softWrap: true,
+                  ),
+                ),
+              ],
             ),
+
             const SizedBox(height: 8),
             // Rating Row
             Row(
@@ -80,7 +88,7 @@ class ReviewWidgetDesign extends StatelessWidget {
                         color: Colors.amber, size: 18)),
                 const SizedBox(width: 8),
                 Text('${reviewModel.rating}',
-                    style: const TextStyle(color: Colors.grey)),
+                    style: const TextStyle(color: Colors.red,fontWeight: FontWeight.bold)),
               ],
             ),
           ],

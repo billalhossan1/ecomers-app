@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 3));
 
       if (mounted) {
-        Navigator.pushNamed(context, MainBottomNavBar.name);
+        Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context)=>const MainBottomNavBar()),(p)=>false);
       }
   }
 

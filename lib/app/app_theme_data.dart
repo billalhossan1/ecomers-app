@@ -17,11 +17,12 @@ class AppThemeData {
   );
 
 
-  static TextFormField textFormField(String hint, int maxline,TextEditingController controller,String? Function(String?) validator,TextInputType? keyboardType) {
+  static TextFormField textFormField(String hint, int maxLine,TextEditingController controller,String? Function(String?) validator,TextInputType? keyboardType,{int? maxLength}) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
-      maxLines: maxline,
+      maxLines: maxLine,
+      maxLength: maxLength,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(

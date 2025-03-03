@@ -26,7 +26,7 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: AppThemeData.primaryText('Create Review'),
       ),
@@ -35,45 +35,51 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 36),
-                  AppThemeData.textFormField(
-                      'Review Message', 10, _writeReviewTEController, (value) {
+            child: Column(
+              children: [
+                const SizedBox(height: 36),
+                AppThemeData.textFormField(
+                  'Review Message',
+                  8,
+                  _writeReviewTEController,
+                      (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please Enter Your Review Message';
+                    } else if (value.length == 101) {
+                      return 'Message highest limit 100';
                     } else {
                       return null;
                     }
-                  }, TextInputType.text),
-                  const SizedBox(height: 18),
-                  AppThemeData.textFormField(
-                    'Rating', 1, _ratingReviewTEController, (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please Enter Your Rating';
-                    }
-                    final rating = double.tryParse(value.trim());
-                    if (rating == null) {
-                      return 'Please Enter a valid number for Rating';
-                    } else if (rating < 1 || rating > 5) {
-                      return 'Rating must be between 1 and 5';
-                    }
-                    return null;
                   },
-                    TextInputType.number,
-                  ),
-                  const SizedBox(height: 18),
-                  GetBuilder<CreateReviewController>(builder: (controller) {
-                    if (controller.inProgress) {
-                      return const CenterCircularProgressIndicator();
-                    } else {
-                      return AppThemeData.nextButton(
-                          onPressed: _onTapSubmit, name: 'Submit');
-                    }
-                  })
-                ],
-              ),
+                  TextInputType.text,
+                  maxLength: 101,
+                ),
+                const SizedBox(height: 18),
+                AppThemeData.textFormField(
+                  'Rating', 1, _ratingReviewTEController, (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please Enter Your Rating';
+                  }
+                  final rating = double.tryParse(value.trim());
+                  if (rating == null) {
+                    return 'Please Enter a valid number for Rating';
+                  } else if (rating < 1 || rating > 5) {
+                    return 'Rating must be between 1 and 5';
+                  }
+                  return null;
+                },
+                  TextInputType.number,
+                ),
+                const SizedBox(height: 18),
+                GetBuilder<CreateReviewController>(builder: (controller) {
+                  if (controller.inProgress) {
+                    return const CenterCircularProgressIndicator();
+                  } else {
+                    return AppThemeData.nextButton(
+                        onPressed: _onTapSubmit, name: 'Submit');
+                  }
+                })
+              ],
             ),
           ),
         ),
@@ -82,7 +88,7 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
   }
 
   void _onTapSubmit() async {
-    if(AuthController().isLoggedIn()){
+    if(Get.find<AuthController>().isLoggedIn()){
       if (_formKey.currentState!.validate()) {
         CreateReviewController createReviewController =
         Get.find<CreateReviewController>();
