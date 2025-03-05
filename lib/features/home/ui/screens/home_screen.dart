@@ -31,6 +31,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+
+    Get.find<SpecialProductListController>().getProductList();
+    Get.find<PopularProductListController>().getProductList();
+    Get.find<NewProductListController>().getProductList();
+    super.initState();
+  }
   final TextEditingController searchBarController = TextEditingController();
   final CategoryListPaginationController _categoryListPaginationController =
       Get.find<CategoryListPaginationController>();

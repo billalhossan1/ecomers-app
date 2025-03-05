@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 borderRadius: BorderRadius.circular(15),
               ),
               elevation: 10,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/login');
+                        Navigator.pushNamed(context,LoginScreen.name);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
