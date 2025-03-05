@@ -37,17 +37,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
     bool isLoggedIn=Get.find<AuthController>().isLoggedIn();
     if (!isLoggedIn) {
       return Scaffold(
-        appBar: AppBar(title: const Text("Profile")),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("You are not logged in", style: TextStyle(fontSize: 18)),
-              const SizedBox(height: 20),
-              AppThemeData.nextButton(onPressed: (){
-                Navigator.pushNamed(context, LoginScreen.name);
-              },name: 'LogIn Now')
-            ],
+        appBar: AppBar(
+          title: const Text("Profile"),
+          backgroundColor: Colors.deepPurple.shade200, // Stylish app bar color
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.deepPurpleAccent, Colors.pinkAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Center(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 10,
+              color: Colors.white.withOpacity(0.9),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.lock_outline, size: 80, color: Colors.deepPurple),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "You are not logged in",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
+                        elevation: 5,
+                      ),
+                      child: const Text("Log In Now", style: TextStyle(fontSize: 16)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       );

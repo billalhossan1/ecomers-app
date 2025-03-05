@@ -12,7 +12,7 @@ class ProductShimmer extends StatelessWidget {
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
       enabled: true,
-      child: SingleChildScrollView( // ✅ Fix: Makes Row scrollable
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: List.generate(itemCount, (index) {

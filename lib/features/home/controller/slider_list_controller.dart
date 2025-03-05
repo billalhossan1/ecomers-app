@@ -1,4 +1,3 @@
-
 import 'package:ecomers_app/app/urls.dart';
 import 'package:ecomers_app/features/home/data/model/slider_list_model.dart';
 import 'package:ecomers_app/services/network_caller.dart';
