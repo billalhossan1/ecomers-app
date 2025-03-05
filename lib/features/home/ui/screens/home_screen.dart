@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<NewProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductShimmer(itemCount: 3,);
+                        return const ProductShimmer(itemCount: 2,);
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));
