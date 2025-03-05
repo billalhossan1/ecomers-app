@@ -18,5 +18,4 @@ class Urls{
   static String reviewListUrl(String productId) => '$_basicUrl/reviews?product=$productId';
   static String addReviewUrl = '$_basicUrl/review';
 
-
 }
