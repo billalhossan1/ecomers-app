@@ -16,6 +16,7 @@ import 'package:ecomers_app/features/product/controller/popular_product_list_con
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
 import 'package:ecomers_app/features/product/controller/special_product_list_controller.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_list_screen.dart';
+import 'package:ecomers_app/features/simmer/product_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -147,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GetBuilder<SliderListController>(builder: (controller) {
                 return Visibility(
                   visible: !controller.inProgress,
-                  replacement: const CenterCircularProgressIndicator(),
+                  replacement: const ProductSimmer(),
                   child: HomeCaroselSlider(
                     sliderList: controller.bannerList,
                   ),
@@ -175,12 +176,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (controller) {
                 return Visibility(
                   visible: !controller.initialInProgress,
-                  replacement: const CenterCircularProgressIndicator(),
+                  replacement: const ProductSimmer(),
                   child: FutureBuilder<List<Widget>>(
                     future: getCategoryList(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CenterCircularProgressIndicator();
+                        return const ProductSimmer();
                       }
                       if (snapshot.hasError) {
                         return const Center(
@@ -227,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<SpecialProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const CenterCircularProgressIndicator();
+                        return const ProductSimmer();
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));
@@ -263,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<PopularProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const CenterCircularProgressIndicator();
+                        return const ProductSimmer();
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));
@@ -298,7 +299,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<NewProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const CenterCircularProgressIndicator();
+                        return const ProductSimmer();
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));

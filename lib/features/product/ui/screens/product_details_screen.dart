@@ -10,6 +10,7 @@ import 'package:ecomers_app/features/product/ui/screens/review_screen.dart';
 import 'package:ecomers_app/features/product/ui/widgets/color_picker_widget.dart';
 import 'package:ecomers_app/features/product/ui/widgets/product_carosel_slider.dart';
 import 'package:ecomers_app/features/product/ui/widgets/size_picker_widget.dart';
+import 'package:ecomers_app/features/simmer/simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,7 +54,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           );
         }
         if (controller.productDetailsModel == null || controller.productDetailsModel!.data == null) {
-          return const CenterCircularProgressIndicator();
+          return const ProductDetailsShimmer();
         }
         return Column(
           children: [
@@ -179,7 +180,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: AppColor.themeColor.withOpacity(0.2),
+                  color: AppColor.themeColor.withValues(alpha: 0.2),
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(40),
                       topLeft: Radius.circular(40))),

@@ -4,17 +4,17 @@ class ProductSearchBar extends StatelessWidget {
   const ProductSearchBar({
     super.key,
     required this.controller,
-    required this.onChanged, // Add onChanged parameter
+    required this.onChanged,
   });
 
   final TextEditingController controller;
-  final Function(String) onChanged; // This will accept the input string
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      onChanged: onChanged, // Set the onChanged callback
+      onChanged: onChanged,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
         border: const OutlineInputBorder(borderSide: BorderSide.none),

@@ -2,6 +2,7 @@ import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/poduct_item_widget.dart';
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
+import 'package:ecomers_app/features/simmer/product_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +32,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
       body: GetBuilder<ProductListPaginationController>(
         builder: (controller) {
           if (controller.inProgress) {
-            return const CenterCircularProgressIndicator();
+            return const ProductSimmer();
           }
           if (controller.productList.isNotEmpty) {
             return GridView.builder(

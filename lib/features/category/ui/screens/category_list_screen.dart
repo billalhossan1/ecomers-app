@@ -3,6 +3,7 @@ import 'package:ecomers_app/features/category/contoller/category_list_pagination
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_item_widget.dart';
+import 'package:ecomers_app/features/simmer/product_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,7 +49,7 @@ class _CategoryScreenState extends State<CategoryListScreen> {
             child: GetBuilder<CategoryListPaginationController>(
               builder: (controller) {
                 if(controller.initialInProgress){
-                  return const CenterCircularProgressIndicator();
+                  return const ProductSimmer();
                 }
                 else{
                   return Column(
