@@ -92,7 +92,13 @@ class ProductItemWidget extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(width: 8,),
-                          const Icon(Icons.favorite,size: 18,)
+
+                          Icon(
+                            productModel.inWishlist ?? false ? Icons.favorite : Icons.favorite_border,
+                            size: 18,
+                            color: productModel.inWishlist ?? false ? Colors.red : Colors.black,
+                          )
+
                         ],
                       ),
                     )
