@@ -14,9 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key, required this.productId});
+  const ProductDetailsScreen({super.key, required this.productId, required this.inWishList});
   static String name = '/product/ui/screens/product_details';
   final String productId;
+  final bool inWishList;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -116,10 +117,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           IconButton(
                             onPressed: onTapWish,
                             icon: Icon(
-                              controller.productDetailsModel!.data?.inWishlist ?? false
+                              widget.inWishList ?? false
                                   ? Icons.favorite
                                   : Icons.favorite_border,
-                              color: controller.productDetailsModel!.data?.inWishlist ?? false
+                              color: widget.inWishList ?? false
                                   ? Colors.red
                                   : null,
                             ),

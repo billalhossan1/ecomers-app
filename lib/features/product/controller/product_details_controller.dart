@@ -1,5 +1,4 @@
 import 'package:ecomers_app/app/urls.dart';
-import 'package:ecomers_app/features/product/model/product_list_model.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/product/model/product_model.dart';
 import 'package:ecomers_app/services/network_caller.dart';

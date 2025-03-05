@@ -17,7 +17,10 @@ class ProductItemWidget extends StatelessWidget {
         Navigator.pushNamed(
           context,
           ProductDetailsScreen.name,
-          arguments: {'productId': productModel.sId},
+          arguments: {
+            'productId': productModel.sId,
+            'inWishList': productModel.inWishlist ?? false,
+          },
         );
       },
 
@@ -29,7 +32,7 @@ class ProductItemWidget extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColor.themeColor.withOpacity(0.44),
+                      color: AppColor.themeColor.withValues(alpha: 0.2),
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(8),
                           topRight: Radius.circular(8))),
