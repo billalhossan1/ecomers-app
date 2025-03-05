@@ -12,13 +12,16 @@ class AddToCartController extends GetxController {
 
 
 
-  Future<bool> addToCart(String productId) async {
+  Future<bool> addToCart(String productId, {required String color, required String size}) async {
     bool isSuccess = false;
     _inProgress = true;
     update();
     String? token=Get.find<AuthController>().accessToken;
     Map<String,dynamic>body={
-      "product":productId
+      "product":productId,
+      // "quantity":2,
+      "color": color,
+      "size": size
     };
     NetworkResponse response = await Get.find<NetworkCaller>().postRequest(
         Urls.addToCart,

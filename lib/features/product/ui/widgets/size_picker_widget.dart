@@ -2,8 +2,9 @@ import 'package:ecomers_app/app/app_color.dart';
 import 'package:flutter/material.dart';
 
 class SizePickerWidget extends StatefulWidget {
-  const SizePickerWidget({super.key, required this.sizes});
+  const SizePickerWidget({super.key, required this.sizes, required this.onSizeSelected});
   final List<String> sizes;
+  final ValueChanged<String> onSizeSelected;
 
   @override
   State<SizePickerWidget> createState() => _SizePickerWidgetState();
@@ -28,6 +29,7 @@ class _SizePickerWidgetState extends State<SizePickerWidget> {
         name: size,
         onTap: () {
           _selectedSize = size;
+          widget.onSizeSelected(size);  // Pass selected size back to the parent
           setState(() {});
         },
         isSelected: _selectedSize == size,
@@ -39,8 +41,8 @@ class _SizePickerWidgetState extends State<SizePickerWidget> {
 
   Widget sizeItemDesign(
       {required String name,
-      required VoidCallback onTap,
-      required bool isSelected}) {
+        required VoidCallback onTap,
+        required bool isSelected}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -57,3 +59,4 @@ class _SizePickerWidgetState extends State<SizePickerWidget> {
     );
   }
 }
+

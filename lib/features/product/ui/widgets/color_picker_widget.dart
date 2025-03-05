@@ -2,8 +2,9 @@ import 'package:ecomers_app/app/app_color.dart';
 import 'package:flutter/material.dart';
 
 class ColorPickerWidget extends StatefulWidget {
-  const ColorPickerWidget({super.key, required this.colors});
+  const ColorPickerWidget({super.key, required this.colors, required this.onColorSelected});
   final List<String> colors;
+  final ValueChanged<String> onColorSelected;
 
   @override
   State<ColorPickerWidget> createState() => _ColorPickerWidgetState();
@@ -28,6 +29,7 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
         name: color,
         onTap: () {
           _selectedColor = color;
+          widget.onColorSelected(color);  // Pass selected color back to the parent
           setState(() {});
         },
         isSelected: _selectedColor == color,
@@ -39,8 +41,8 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
 
   Widget colorItemDesign(
       {required String name,
-      required VoidCallback onTap,
-      required bool isSelected}) {
+        required VoidCallback onTap,
+        required bool isSelected}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -57,3 +59,5 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
     );
   }
 }
+
+

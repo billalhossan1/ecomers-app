@@ -21,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../simmer/simmer.dart' show ProductShimmer;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -148,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GetBuilder<SliderListController>(builder: (controller) {
                 return Visibility(
                   visible: !controller.inProgress,
-                  replacement: const ProductSimmer(),
+                  replacement: const ProductShimmer(itemCount: 3,),
                   child: HomeCaroselSlider(
                     sliderList: controller.bannerList,
                   ),
@@ -176,12 +178,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (controller) {
                 return Visibility(
                   visible: !controller.initialInProgress,
-                  replacement: const ProductSimmer(),
+                  replacement: const ProductShimmer(itemCount: 3,),
                   child: FutureBuilder<List<Widget>>(
                     future: getCategoryList(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const ProductSimmer();
+                        return const ProductShimmer(itemCount: 3,);
                       }
                       if (snapshot.hasError) {
                         return const Center(
@@ -228,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<SpecialProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductSimmer();
+                        return const ProductShimmer(itemCount: 3,);
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));
@@ -264,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<PopularProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductSimmer();
+                        return const ProductShimmer(itemCount: 3,);
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));
@@ -299,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<NewProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductSimmer();
+                        return const ProductShimmer(itemCount: 3,);
                       } else {
                         if (controller.productList.isEmpty) {
                           return const Center(child: Text('No Product Available'));
