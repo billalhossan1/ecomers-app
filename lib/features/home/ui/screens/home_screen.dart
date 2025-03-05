@@ -1,3 +1,4 @@
+import 'package:ecomers_app/app/app_constant.dart';
 import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/features/category/contoller/category_list_pagination_controller.dart';
@@ -10,7 +11,10 @@ import 'package:ecomers_app/features/home/ui/widgets/category_item_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_text_widget.dart';
 import 'package:ecomers_app/features/home/ui/widgets/home_carosel_slider.dart';
 import 'package:ecomers_app/features/home/ui/widgets/product_search_bar.dart';
+import 'package:ecomers_app/features/product/controller/new_product_list_controller.dart';
+import 'package:ecomers_app/features/product/controller/popular_product_list_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
+import 'package:ecomers_app/features/product/controller/special_product_list_controller.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,9 +30,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController searchBarController = TextEditingController();
   final CategoryListPaginationController _categoryListPaginationController =
-  Get.find<CategoryListPaginationController>();
+      Get.find<CategoryListPaginationController>();
   final ProductListPaginationController _productListPaginationController =
-  Get.find<ProductListPaginationController>();
+      Get.find<ProductListPaginationController>();
 
   String searchQuery = '';
   List<Widget> filteredCategories = [];
@@ -36,10 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<List<Widget>> getCategoryList() async {
     List<Widget> categoryList = [];
-    for (int i = 0; i < 11 && _categoryListPaginationController.categoryList.length > i; i++) {
+    for (int i = 0;
+        i < 11 && _categoryListPaginationController.categoryList.length > i;
+        i++) {
       categoryList.add(Padding(
         padding: const EdgeInsets.all(8.0),
-        child: CategoryItemWidget(categoryModel: _categoryListPaginationController.categoryList[i]),
+        child: CategoryItemWidget(
+            categoryModel: _categoryListPaginationController.categoryList[i]),
       ));
     }
     return categoryList;
@@ -47,30 +54,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<List<Widget>> getProductList() async {
     List<Widget> productList = [];
-    for (int i = 0; i < 10 && _productListPaginationController.productList.length > i; i++) {
+    for (int i = 0;
+        i < 10 && _productListPaginationController.productList.length > i;
+        i++) {
       productList.add(Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ProductItemWidget(productModel: _productListPaginationController.productList[i]),
+        child: ProductItemWidget(
+            productModel: _productListPaginationController.productList[i]),
       ));
     }
     return productList;
   }
+
   void filterSearchResults(String query) {
     setState(() {
       searchQuery = query;
       filteredCategories = _categoryListPaginationController.categoryList
-          .where((category) => category.title!.toLowerCase().contains(query.toLowerCase()))
+          .where((category) =>
+              category.title!.toLowerCase().contains(query.toLowerCase()))
           .map((category) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: CategoryItemWidget(categoryModel: category),
-      ))
+                padding: const EdgeInsets.all(8.0),
+                child: CategoryItemWidget(categoryModel: category),
+              ))
           .toList();
       filteredProducts = _productListPaginationController.productList
-          .where((product) => product.title!.toLowerCase().contains(query.toLowerCase()))
+          .where((product) =>
+              product.title!.toLowerCase().contains(query.toLowerCase()))
           .map((product) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ProductItemWidget(productModel: product),
-      ))
+                padding: const EdgeInsets.all(8.0),
+                child: ProductItemWidget(productModel: product),
+              ))
           .toList();
     });
   }
@@ -158,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              GetBuilder<CategoryListPaginationController>(builder: (controller) {
+              GetBuilder<CategoryListPaginationController>(
+                  builder: (controller) {
                 return Visibility(
                   visible: !controller.initialInProgress,
                   replacement: const CenterCircularProgressIndicator(),
@@ -169,10 +183,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const CenterCircularProgressIndicator();
                       }
                       if (snapshot.hasError) {
-                        return const Center(child: Text("Error loading categories"));
+                        return const Center(
+                            child: Text("Error loading categories"));
                       }
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text("No categories available"));
+                        return const Center(
+                            child: Text("No categories available"));
                       }
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -180,8 +196,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: searchQuery.isEmpty
                               ? snapshot.data!
                               : filteredCategories.isEmpty
-                              ? [const Center(child: Text("No categories found"))]
-                              : filteredCategories,
+                                  ? [
+                                      const Center(
+                                          child: Text("No categories found"))
+                                    ]
+                                  : filteredCategories,
                         ),
                       );
                     },
@@ -189,26 +208,116 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }),
               const SizedBox(height: 16),
-              GetBuilder<CategoryListPaginationController>(builder: (controller) {
-                return Column(
-                  children: [
-                    for (int i = 0; i < controller.categoryList.length && i < 10; i++)
-                      CategoryTextWidget(
-                        onTapSeeAll: () {
-                          Navigator.pushNamed(
-                            context,
-                            ProductListScreen.name,
-                            arguments: {
-                              'categoryName': controller.categoryList[i].title,
-                              'categoryId': controller.categoryList[i].sId,
-                            },
+              Column(
+                children: [
+                  CategoryTextWidget(
+                      onTapSeeAll: () {
+                        Navigator.pushNamed(
+                          context,
+                          ProductListScreen.name,
+                          arguments: {
+                            'categoryName': 'Special',
+                            'categoryId': AppConstant.specialCatId,
+                          },
+                        );
+                      },
+                      categoryTittle: 'Special'),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: GetBuilder<SpecialProductListController>(
+                        builder: (controller) {
+                      if (controller.inProgress) {
+                        return const CenterCircularProgressIndicator();
+                      } else {
+                        if (controller.productList.isEmpty) {
+                          return const Center(child: Text('No Product Available'));
+                        } else {
+                          return Row(
+                            children: [
+                              for (int i = 0;
+                                  i < controller.productList.length && i < 6;
+                                  i++)
+                                ProductItemWidget(
+                                    productModel: controller.productList[i])
+                            ],
                           );
-                        },
-                        categoryModel: controller.categoryList[i],
-                      ),
-                  ],
-                );
-              }),
+                        }
+                      }
+                    }),
+                  ),
+                  const SizedBox(height: 16),
+                  CategoryTextWidget(
+                      onTapSeeAll: () {
+                        Navigator.pushNamed(
+                          context,
+                          ProductListScreen.name,
+                          arguments: {
+                            'categoryName': 'Popular',
+                            'categoryId': AppConstant.popularCatId,
+                          },
+                        );
+                      },
+                      categoryTittle: 'Popular'),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: GetBuilder<PopularProductListController>(
+                        builder: (controller) {
+                      if (controller.inProgress) {
+                        return const CenterCircularProgressIndicator();
+                      } else {
+                        if (controller.productList.isEmpty) {
+                          return const Center(child: Text('No Product Available'));
+                        } else {
+                          return Row(
+                            children: [
+                              for (int i = 0;
+                                  i < controller.productList.length && i < 6;
+                                  i++)
+                                ProductItemWidget(
+                                    productModel: controller.productList[i])
+                            ],
+                          );
+                        }
+                      }
+                    }),
+                  ),const SizedBox(height: 16),
+                  CategoryTextWidget(
+                      onTapSeeAll: () {
+                        Navigator.pushNamed(
+                          context,
+                          ProductListScreen.name,
+                          arguments: {
+                            'categoryName': 'New',
+                            'categoryId': AppConstant.newCatId,
+                          },
+                        );
+                      },
+                      categoryTittle: 'New'),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: GetBuilder<NewProductListController>(
+                        builder: (controller) {
+                      if (controller.inProgress) {
+                        return const CenterCircularProgressIndicator();
+                      } else {
+                        if (controller.productList.isEmpty) {
+                          return const Center(child: Text('No Product Available'));
+                        } else {
+                          return Row(
+                            children: [
+                              for (int i = 0;
+                                  i < controller.productList.length && i < 6;
+                                  i++)
+                                ProductItemWidget(
+                                    productModel: controller.productList[i])
+                            ],
+                          );
+                        }
+                      }
+                    }),
+                  ),
+                ],
+              )
             ],
           ),
         ),

@@ -1,15 +1,13 @@
 import 'package:ecomers_app/app/app_theme_data.dart';
-import 'package:ecomers_app/features/category/model/category_list_pagination_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CategoryTextWidget extends StatelessWidget {
   const CategoryTextWidget({
     super.key,
-    required this.onTapSeeAll, required this.categoryModel,
+    required this.onTapSeeAll, required this.categoryTittle,
   });
 
-  final CategoryModel categoryModel;
+  final String categoryTittle;
   final VoidCallback onTapSeeAll;
 
   @override
@@ -17,7 +15,7 @@ class CategoryTextWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppThemeData.primaryText('${categoryModel.title}'),
+        AppThemeData.primaryText(categoryTittle),
         TextButton(
           onPressed: onTapSeeAll,
           child: const Text(

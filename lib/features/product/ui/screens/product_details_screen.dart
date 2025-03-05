@@ -55,7 +55,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         if (controller.productDetailsModel == null || controller.productDetailsModel!.data == null) {
           return const CenterCircularProgressIndicator();
         }
-
         return Column(
           children: [
             ProductCaroselSlider(productDetailsModel: controller.productDetailsModel!,),
@@ -85,16 +84,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       Row(
                         children: [
-                          const Wrap(
+                           Wrap(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                                 size: 18,
                               ),
                               Text(
-                                '0',
-                                style: TextStyle(fontWeight: FontWeight.w400),
+                                '${controller.productDetailsModel?.data?.iV??0}',
+                                style: const TextStyle(fontWeight: FontWeight.w400),
                               ),
                             ],
                           ),
@@ -112,7 +111,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           const SizedBox(
                             width: 2,
                           ),
-                          IconButton(onPressed: onTapWish, icon: const Icon(Icons.favorite_border))
+                          IconButton(
+                            onPressed: onTapWish,
+                            icon: Icon(
+                              controller.productDetailsModel!.data?.inWishlist ?? false
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: controller.productDetailsModel!.data?.inWishlist ?? false
+                                  ? Colors.red
+                                  : null,
+                            ),
+                          )
+
 
                         ],
                       ),

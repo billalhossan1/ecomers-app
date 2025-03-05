@@ -12,6 +12,9 @@ import 'package:ecomers_app/features/home/controller/update_profile_controller.d
 import 'package:ecomers_app/features/product/controller/add_to_cart_controller.dart';
 import 'package:ecomers_app/features/product/controller/add_to_wish_controller.dart';
 import 'package:ecomers_app/features/product/controller/create_review_controller.dart';
+import 'package:ecomers_app/features/product/controller/new_product_list_controller.dart';
+import 'package:ecomers_app/features/product/controller/popular_product_list_controller.dart';
+import 'package:ecomers_app/features/product/controller/special_product_list_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_details_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
 import 'package:ecomers_app/features/product/controller/review_list_contoller.dart';
@@ -43,6 +46,9 @@ class ControllerBinder extends Bindings
     Get.put(AddToWishController());
     Get.put(ReviewListContoller());
     Get.put(CreateReviewController());
+    Get.put(SpecialProductListController());
+    Get.put(PopularProductListController());
+    Get.put(NewProductListController());
     // Get.put(GetProfileDataController());
     // Get.put(HomeCategoryListController());
   }
