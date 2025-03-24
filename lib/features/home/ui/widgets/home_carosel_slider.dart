@@ -1,16 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecomers_app/app/app_color.dart';
+import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/home/data/model/slider_list_model.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeCaroselSlider extends StatefulWidget {
   const HomeCaroselSlider({
     super.key,
     required this.sliderList,
+    required this.onDelete,
   });
 
   final List<SliderModel> sliderList;
+  final Function(String) onDelete;
 
   @override
   State<HomeCaroselSlider> createState() => _HomeCaroselSliderState();
@@ -37,10 +41,13 @@ class _HomeCaroselSliderState extends State<HomeCaroselSlider> {
               selectedIndex.value = currentIndex;
             },
           ),
-          items: widget.sliderList.map((banner) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
+          items: widget.sliderList.asMap().entries.map((entry) {
+            int index = entry.key;
+            SliderModel banner = entry.value;
+
+            return Stack(
+              children: [
+                Container(
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 3),
                   decoration: BoxDecoration(
@@ -50,7 +57,7 @@ class _HomeCaroselSliderState extends State<HomeCaroselSlider> {
                       image: banner.photoUrl != null && banner.photoUrl!.isNotEmpty
                           ? NetworkImage(banner.photoUrl!)
                           : const AssetImage('assets/images/placeholder.png')
-                      as ImageProvider, // Use local placeholder image
+                      as ImageProvider,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -72,15 +79,34 @@ class _HomeCaroselSliderState extends State<HomeCaroselSlider> {
                         SizedBox(
                           width: 90,
                           child: ElevatedButton(
-                            onPressed: (){Navigator.pushNamed(context, ProductDetailsScreen.name,arguments: {'productId': banner.product});},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                ProductDetailsScreen.name,
+                                arguments: {'productId': banner.product},
+                              );
+                            },
                             child: const Text('Buy now'),
                           ),
                         ),
                       ],
                     ),
                   ),
-                );
-              },
+                ),
+                if(Get.find<AuthController>().profileModel!.role==1)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.red.withAlpha(2),
+                    child: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red, size: 18),
+                      onPressed: () => widget.onDelete(widget.sliderList[index].sId!),
+                    ),
+                  ),
+                ),
+              ],
             );
           }).toList(),
         ),

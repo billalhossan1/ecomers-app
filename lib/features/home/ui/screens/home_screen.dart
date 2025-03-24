@@ -1,10 +1,13 @@
+import 'package:ecomers_app/app/app_color.dart';
 import 'package:ecomers_app/app/app_constant.dart';
 import 'package:ecomers_app/app/app_theme_data.dart';
 import 'package:ecomers_app/app/assets_path.dart';
 import 'package:ecomers_app/features/category/contoller/category_list_pagination_controller.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
+import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
 import 'package:ecomers_app/features/common/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:ecomers_app/features/common/ui/widgets/poduct_item_widget.dart';
+import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dart';
 import 'package:ecomers_app/features/home/controller/slider_list_controller.dart';
 import 'package:ecomers_app/features/home/ui/screens/profile_screen.dart';
 import 'package:ecomers_app/features/home/ui/widgets/category_item_widget.dart';
@@ -15,8 +18,8 @@ import 'package:ecomers_app/features/product/controller/new_product_list_control
 import 'package:ecomers_app/features/product/controller/popular_product_list_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
 import 'package:ecomers_app/features/product/controller/special_product_list_controller.dart';
+import 'package:ecomers_app/features/product/ui/admin/controller/delete_slider_controller.dart';
 import 'package:ecomers_app/features/product/ui/screens/product_list_screen.dart';
-import 'package:ecomers_app/features/simmer/product_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -33,12 +36,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-
     Get.find<SpecialProductListController>().getProductList();
     Get.find<PopularProductListController>().getProductList();
-    Get.find<NewProductListController>().getProductList();
+    Get.find<SliderListController>().getSliders();
     super.initState();
   }
+
   final TextEditingController searchBarController = TextEditingController();
   final CategoryListPaginationController _categoryListPaginationController =
       Get.find<CategoryListPaginationController>();
@@ -155,12 +158,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 onChanged: filterSearchResults,
               ),
               const SizedBox(height: 16),
+              if (Get.find<AuthController>().profileModel?.role == 1)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(width: 1,),
+                    ElevatedButton.icon(
+                      onPressed: () {
+
+                      },
+                      icon: const Icon(Icons.add, color: AppColor.themeColor,),
+                      label:  const Text("Add Slider",style: TextStyle(color: Colors.black),),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black12,
+                      ),
+                    ),
+
+                  ],
+                ),
+              // else if(Get.find<AuthController>().profileModel?.role == 0)return null;
+
+              const SizedBox(height: 16),
               GetBuilder<SliderListController>(builder: (controller) {
                 return Visibility(
                   visible: !controller.inProgress,
-                  replacement: const ProductShimmer(itemCount: 3,),
+                  replacement: const ProductShimmer(
+                    itemCount: 3,
+                  ),
                   child: HomeCaroselSlider(
-                    sliderList: controller.bannerList,
+                    sliderList: controller.bannerList, onDelete: (sliderId ) {
+                      onTapDeleteSlider(sliderId);
+                  },
                   ),
                 );
               }),
@@ -186,12 +214,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (controller) {
                 return Visibility(
                   visible: !controller.initialInProgress,
-                  replacement: const ProductShimmer(itemCount: 3,),
+                  replacement: const ProductShimmer(
+                    itemCount: 3,
+                  ),
                   child: FutureBuilder<List<Widget>>(
                     future: getCategoryList(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const ProductShimmer(itemCount: 3,);
+                        return const ProductShimmer(
+                          itemCount: 3,
+                        );
                       }
                       if (snapshot.hasError) {
                         return const Center(
@@ -238,10 +270,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<SpecialProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductShimmer(itemCount: 3,);
+                        return const ProductShimmer(
+                          itemCount: 3,
+                        );
                       } else {
                         if (controller.productList.isEmpty) {
-                          return const Center(child: Text('No Product Available'));
+                          return const Center(
+                              child: Text('No Product Available'));
                         } else {
                           return Row(
                             children: [
@@ -274,10 +309,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<PopularProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductShimmer(itemCount: 3,);
+                        return const ProductShimmer(
+                          itemCount: 3,
+                        );
                       } else {
                         if (controller.productList.isEmpty) {
-                          return const Center(child: Text('No Product Available'));
+                          return const Center(
+                              child: Text('No Product Available'));
                         } else {
                           return Row(
                             children: [
@@ -291,7 +329,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       }
                     }),
-                  ),const SizedBox(height: 16),
+                  ),
+                  const SizedBox(height: 16),
                   CategoryTextWidget(
                       onTapSeeAll: () {
                         Navigator.pushNamed(
@@ -309,10 +348,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GetBuilder<NewProductListController>(
                         builder: (controller) {
                       if (controller.inProgress) {
-                        return const ProductShimmer(itemCount: 2,);
+                        return const ProductShimmer(
+                          itemCount: 2,
+                        );
                       } else {
                         if (controller.productList.isEmpty) {
-                          return const Center(child: Text('No Product Available'));
+                          return const Center(
+                              child: Text('No Product Available'));
                         } else {
                           return Row(
                             children: [
@@ -334,5 +376,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+  void onTapDeleteSlider(String sliderId)async{
+    bool isSuccess=await Get.find<DeleteSliderController>().deleteSlider(sliderId);
+    if(mounted){
+      if(isSuccess){
+        setState(() {
+          showSnackBarMessage(context, 'Slider Deleted Successfully');
+        });
+      }
+      else{
+        showSnackBarMessage(context, Get.find<DeleteSliderController>().errorMessage!);
+      }
+    }
   }
 }

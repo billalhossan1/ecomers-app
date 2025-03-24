@@ -6,6 +6,7 @@ import 'package:ecomers_app/features/cart/controller/delete_cart_controller.dart
 import 'package:ecomers_app/features/category/contoller/category_list_pagination_controller.dart';
 import 'package:ecomers_app/features/common/controller/main_bottom_nav_controller.dart';
 import 'package:ecomers_app/features/common/ui/controller/auth_controller.dart';
+import 'package:ecomers_app/features/product/ui/admin/controller/add_slider_controller.dart';
 import 'package:ecomers_app/features/home/controller/get_profile_controller.dart';
 import 'package:ecomers_app/features/home/controller/slider_list_controller.dart';
 import 'package:ecomers_app/features/home/controller/update_profile_controller.dart';
@@ -18,6 +19,7 @@ import 'package:ecomers_app/features/product/controller/special_product_list_con
 import 'package:ecomers_app/features/product/controller/product_details_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_list_pagination_controller.dart';
 import 'package:ecomers_app/features/product/controller/review_list_contoller.dart';
+import 'package:ecomers_app/features/product/ui/admin/controller/delete_slider_controller.dart';
 import 'package:ecomers_app/features/wish-list/controller/delete_wish_controller.dart';
 import 'package:ecomers_app/features/wish-list/controller/wish_list_controller.dart';
 import 'package:ecomers_app/services/network_caller.dart';
@@ -49,6 +51,8 @@ class ControllerBinder extends Bindings
     Get.put(SpecialProductListController());
     Get.put(PopularProductListController());
     Get.put(NewProductListController());
+    Get.put(AddSliderController());
+    Get.put(DeleteSliderController());
     // Get.put(GetProfileDataController());
     // Get.put(HomeCategoryListController());
   }

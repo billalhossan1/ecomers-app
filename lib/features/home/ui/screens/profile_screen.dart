@@ -39,12 +39,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
-          backgroundColor: Colors.deepPurple.shade200,
+          backgroundColor: Colors.cyan.shade200,
         ),
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.deepPurpleAccent, Colors.pinkAccent],
+              colors: [Colors.cyan, Colors.white],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -201,6 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     const SizedBox(height: 20),
+
                     GetBuilder<UpdateProfileController>(builder: (controller) {
                       return Visibility(
                         visible: !controller.inProgress,
@@ -224,7 +225,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       child: const Text("Log Out"),
+
                     ),
+                    // Text('Developed by Tanvir',style: TextStyle(color: Colors.pink,fontSize: 32),)
                   ],
                 ),
               ),

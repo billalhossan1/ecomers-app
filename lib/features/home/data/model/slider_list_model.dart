@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class SliderListModel {
   int? code;
   String? status;
@@ -75,7 +77,7 @@ class SliderModel {
   String? description;
   String? product;
   String? brand;
-  Null? category;
+  Category? category;
   String? createdAt;
   String? updatedAt;
   int? iV;

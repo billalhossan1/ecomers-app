@@ -5,6 +5,7 @@ import 'package:ecomers_app/features/common/ui/widgets/show_snackbar_message.dar
 import 'package:ecomers_app/features/product/controller/add_to_cart_controller.dart';
 import 'package:ecomers_app/features/product/controller/add_to_wish_controller.dart';
 import 'package:ecomers_app/features/product/controller/product_details_controller.dart';
+import 'package:ecomers_app/features/product/ui/admin/controller/add_slider_controller.dart';
 import 'package:ecomers_app/features/product/ui/screens/review_screen.dart';
 import 'package:ecomers_app/features/product/ui/widgets/color_picker_widget.dart';
 import 'package:ecomers_app/features/product/ui/widgets/product_carosel_slider.dart';
@@ -14,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key, required this.productId, required this.inWishList});
+  const ProductDetailsScreen(
+      {super.key, required this.productId, required this.inWishList});
   static String name = '/product/ui/screens/product_details';
   final String productId;
   final bool inWishList;
@@ -24,7 +26,8 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  ProductDetailsController productDetailsController = Get.find<ProductDetailsController>();
+  ProductDetailsController productDetailsController =
+      Get.find<ProductDetailsController>();
 
   String? selectedColor;
   String? selectedSize;
@@ -57,12 +60,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           );
         }
-        if (controller.productDetailsModel == null || controller.productDetailsModel!.data == null) {
+        if (controller.productDetailsModel == null ||
+            controller.productDetailsModel!.data == null) {
           return const ProductDetailsShimmer();
         }
         return Column(
           children: [
-            ProductCaroselSlider(productDetailsModel: controller.productDetailsModel!),
+            ProductCaroselSlider(
+                productDetailsModel: controller.productDetailsModel!),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -76,7 +81,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           SizedBox(
                             width: 230,
                             child: Text(
-                              controller.productDetailsModel?.data?.title ?? 'No Title Available',
+                              controller.productDetailsModel?.data?.title ??
+                                  'No Title Available',
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -86,45 +92,85 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Wrap(
+                          Row(
                             children: [
-                              const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 18,
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${controller.productDetailsModel?.data?.iV ?? 0}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '${controller.productDetailsModel?.data?.iV ?? 0}',
-                                style: const TextStyle(fontWeight: FontWeight.w400),
+                              const SizedBox(width: 8),
+                              TextButton(
+                                onPressed: onPressedReview,
+                                child: const Text(
+                                  'Reviews',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.themeColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 2),
+                              IconButton(
+                                onPressed: onTapWish,
+                                icon: Icon(
+                                  widget.inWishList ?? false
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: widget.inWishList ?? false
+                                      ? Colors.red
+                                      : null,
+                                ),
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          TextButton(
-                              onPressed: onPressedReview,
-                              child: const Text(
-                                'Reviews',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColor.themeColor),
-                              )),
-                          const SizedBox(
-                            width: 2,
-                          ),
-                          IconButton(
-                            onPressed: onTapWish,
-                            icon: Icon(
-                              widget.inWishList ?? false
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: widget.inWishList ?? false
-                                  ? Colors.red
-                                  : null,
+                          if(Get.find<AuthController>().profileModel!.role==1)
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              final productData =
+                                  controller.productDetailsModel?.data;
+
+                              if (productData != null &&
+                                  productData.photos != null &&
+                                  productData.photos!.isNotEmpty) {
+                                onTapAddSlider(productData.photos![0],
+                                  productData.description ?? "No description",
+                                  productData.brand?.sId ?? "Unknown brand",);
+                              } else {
+                                Get.snackbar("Error",
+                                    "Product data is missing or incomplete!",
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
+                              }
+                            },
+                            icon: const Icon(Icons.add,
+                                color: AppColor.themeColor),
+                            label: const Text(
+                              "Add To Slider",
+                              style: TextStyle(color: Colors.black),
                             ),
-                          )
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black12,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const Text(
@@ -135,16 +181,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      (controller.productDetailsModel?.data!.colors?.isEmpty ?? true)
+                      (controller.productDetailsModel?.data!.colors?.isEmpty ??
+                              true)
                           ? const Text("No Color Available")
                           : ColorPickerWidget(
-                        colors: controller.productDetailsModel!.data!.colors!,
-                        onColorSelected: (color) {
-                          setState(() {
-                            selectedColor = color;
-                          });
-                        },
-                      ),
+                              colors:
+                                  controller.productDetailsModel!.data!.colors!,
+                              onColorSelected: (color) {
+                                setState(() {
+                                  selectedColor = color;
+                                });
+                              },
+                            ),
                       const SizedBox(height: 8),
                       const Text(
                         'Size',
@@ -154,16 +202,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      (controller.productDetailsModel?.data!.sizes?.isEmpty ?? true)
+                      (controller.productDetailsModel?.data!.sizes?.isEmpty ??
+                              true)
                           ? const Text("No Size Available")
                           : SizePickerWidget(
-                        sizes: controller.productDetailsModel!.data!.sizes!,
-                        onSizeSelected: (size) {
-                          setState(() {
-                            selectedSize = size;
-                          });
-                        },
-                      ),
+                              sizes:
+                                  controller.productDetailsModel!.data!.sizes!,
+                              onSizeSelected: (size) {
+                                setState(() {
+                                  selectedSize = size;
+                                });
+                              },
+                            ),
                       const SizedBox(height: 8),
                       const Text(
                         'Description',
@@ -174,7 +224,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                          controller.productDetailsModel?.data!.description ?? 'No Description Available',
+                          controller.productDetailsModel?.data!.description ??
+                              'No Description Available',
                           style: const TextStyle(color: Colors.grey)),
                     ],
                   ),
@@ -195,11 +246,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Column(children: [
                       const Text(
                         'Price',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '\$${controller.productDetailsModel?.data!.currentPrice ?? '0'}',
-                        style: const TextStyle(fontSize: 22, color: AppColor.themeColor),
+                        style: const TextStyle(
+                            fontSize: 22, color: AppColor.themeColor),
                       ),
                     ]),
                     ElevatedButton(
@@ -236,6 +289,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
+  void onTapAddSlider(
+      String photoUrl, String description, String brandId) async {
+    bool isSuccess=await Get.find<AddSliderController>()
+        .addSlider(photoUrl, description, brandId);
+      if(mounted){
+        if(isSuccess){
+          showSnackBarMessage(context, 'Add Slider Successfully');
+        }
+        else{
+          showSnackBarMessage(context, Get.find<AddSliderController>().errorMessage!);
+        }
+      }
+
+  }
+
   void onTapAddToCart() async {
     if (Get.find<AuthController>().isLoggedIn()) {
       if (selectedColor == null || selectedSize == null) {
@@ -259,8 +327,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
-
   void onPressedReview() {
-    Navigator.pushNamed(context, ReviewScreen.name, arguments: {'productId': widget.productId});
+    Navigator.pushNamed(context, ReviewScreen.name,
+        arguments: {'productId': widget.productId});
   }
 }
