@@ -158,24 +158,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 onChanged: filterSearchResults,
               ),
               const SizedBox(height: 16),
-              if (Get.find<AuthController>().profileModel?.role == 1)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(width: 1,),
-                    ElevatedButton.icon(
-                      onPressed: () {
-
-                      },
-                      icon: const Icon(Icons.add, color: AppColor.themeColor,),
-                      label:  const Text("Add Slider",style: TextStyle(color: Colors.black),),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black12,
-                      ),
-                    ),
-
-                  ],
-                ),
+              // if (Get.find<AuthController>().profileModel?.role == 1)
+              //   Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       const SizedBox(width: 1,),
+              //       ElevatedButton.icon(
+              //         onPressed: () {
+              //
+              //         },
+              //         icon: const Icon(Icons.add, color: AppColor.themeColor,),
+              //         label:  const Text("Add Slider",style: TextStyle(color: Colors.black),),
+              //         style: ElevatedButton.styleFrom(
+              //           backgroundColor: Colors.black12,
+              //         ),
+              //       ),
+              //
+              //     ],
+              //   ),
               // else if(Get.find<AuthController>().profileModel?.role == 0)return null;
 
               const SizedBox(height: 16),
@@ -382,6 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(mounted){
       if(isSuccess){
         setState(() {
+          Get.find<SliderListController>().getSliders();
           showSnackBarMessage(context, 'Slider Deleted Successfully');
         });
       }

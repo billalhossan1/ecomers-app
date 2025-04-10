@@ -14,6 +14,8 @@ import 'package:ecomers_app/features/simmer/product_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../home/controller/slider_list_controller.dart';
+
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen(
       {super.key, required this.productId, required this.inWishList});
@@ -140,6 +142,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           if(Get.find<AuthController>().profileModel!.role==1)
                           ElevatedButton.icon(
                             onPressed: () {
+                              Get.find<SliderListController>().getSliders();
                               final productData =
                                   controller.productDetailsModel?.data;
 
