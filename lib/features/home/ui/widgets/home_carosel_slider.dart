@@ -93,7 +93,7 @@ class _HomeCaroselSliderState extends State<HomeCaroselSlider> {
                     ),
                   ),
                 ),
-                if(Get.find<AuthController>().profileModel!.role==1)
+                if(Get.find<AuthController>().profileModel?.role==1)
                 Positioned(
                   top: 8,
                   right: 8,

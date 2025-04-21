@@ -139,7 +139,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                             ],
                           ),
-                          if(Get.find<AuthController>().profileModel!.role==1)
+                          if(Get.find<AuthController>().profileModel?.role==1)
                           ElevatedButton.icon(
                             onPressed: () {
                               Get.find<SliderListController>().getSliders();

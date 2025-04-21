@@ -148,8 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-
-
   Future<void> _moveToCompleteScreen() async {
     if (_formKey.currentState!.validate()) {
       bool isSuccess = await _registerController.verifyRegister(
