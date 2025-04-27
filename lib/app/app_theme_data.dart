@@ -9,12 +9,21 @@ class AppThemeData {
       ),
       scaffoldBackgroundColor: Colors.white);
   static ThemeData darkThemeData = ThemeData(
-      colorSchemeSeed: AppColor.themeColor,
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColor.themeColor,
-      ),
-      scaffoldBackgroundColor: Colors.black87
+    colorSchemeSeed: AppColor.themeColor,
+    scaffoldBackgroundColor: Colors.black,
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppColor.themeColor,
+    ),
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: Colors.white),
+      bodyMedium: TextStyle(color: Colors.white),
+      bodySmall: TextStyle(color: Colors.white),
+      titleLarge: TextStyle(color: Colors.white),
+      titleMedium: TextStyle(color: Colors.white),
+      titleSmall: TextStyle(color: Colors.white),
+    ),
   );
+
 
 
   static TextFormField textFormField(String hint, int maxLine,TextEditingController controller,String? Function(String?) validator,TextInputType? keyboardType,{int? maxLength}) {

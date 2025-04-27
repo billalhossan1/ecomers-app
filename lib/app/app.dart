@@ -96,7 +96,7 @@ class CraftyBay extends StatelessWidget {
       theme: AppThemeData.lightThemeData,
       darkTheme: AppThemeData.darkThemeData,
       color: AppColor.themeColor,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
 
     );
   }
